@@ -24,7 +24,11 @@ struct Workout: Hashable {
     var energy: Int
     var reflection: String
     
+    // Numerical value used to sort workouts chronologically
     var dateCode: Int
+    
+    // Text description for each workout that will appear in workout log
+    var descr: String
     
     /// Creates a Workout Object, initializing the values of all instance variables
     init(type: String, dayOfTheWeek: String, date: Int, month: Int, year: Int, hours: Int, minutes: Int, mood: Int, energy: Int, reflection: String) {
@@ -40,6 +44,7 @@ struct Workout: Hashable {
         self.reflection = reflection
         
         dateCode = year * 10000 + month * 100 + date
+        descr = "\(type) - \(month)/\(date)/\(String(year).prefix(1))\(String(year).suffix(3))"
     }
     
     /// Declaration for quick use of WorkoutLog
@@ -56,6 +61,7 @@ struct Workout: Hashable {
         self.reflection = ""
         
         dateCode = year * 10000 + month * 100 + date
+        descr = "\(type) - \(month)/\(date)/\(String(year).prefix(1))\(String(year).suffix(3))"
     }
     
     
