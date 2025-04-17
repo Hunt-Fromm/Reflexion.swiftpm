@@ -19,16 +19,44 @@ struct ContentView: View {
                     Text("April 2025")
                         .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
                         .fontWeight(.bold)
+                        .underline()
                     
-                    
-                    
-                    ForEach(0..<workouts.count, id: \.self) { index in
+                    HStack {
                         
-                        let workout = workouts[index]
+                        //
+                        Spacer()
+                            .frame(width: 20)
                         
-                        Text("\(workout.type) - \(workout.month)/\(workout.date)/\(workout.year)")
-                            .frame(width: UIScreen.main.bounds.width)
-                    }
+                        VStack {
+                            
+                            ForEach(0..<workouts.count, id: \.self) { index in
+                                
+                                let workout = workouts[index]
+                                
+                                Button() {
+                                    // DetailView()
+                                } label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .stroke(lineWidth: 3)
+                                            .foregroundStyle(.blue)
+                                        Text("\(workout.type) - \(workout.month)/\(workout.date)/\(String(workout.year).prefix(1))\(String(workout.year).suffix(3))")
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .foregroundStyle(.black)
+                                            .padding(4)
+                                            .offset(x: 5)
+                                            
+                                    }
+                                }
+                                
+                            }
+                            
+                        } // End VStack
+                        
+                        Spacer()
+                            .frame(width: 200)
+                        
+                    } // End HStack
                     
                     Spacer()
                     
