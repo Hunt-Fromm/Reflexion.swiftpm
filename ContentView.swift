@@ -39,13 +39,13 @@ struct ContentView: View {
                                 let workout = workouts[index]
                                 
                                 Button() {
-                                    // DetailView()
+//                                     DetailView(workout: Workout)
                                 } label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 5)
                                             .stroke(lineWidth: 3)
                                             .foregroundStyle(.blue)
-                                        Text("\(workout.type) - \(workout.month)/\(workout.date)/\(String(workout.year).prefix(1))\(String(workout.year).suffix(3))")
+                                        Text("\(workout.descr)")
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(4)
                                             .offset(x: 5)
