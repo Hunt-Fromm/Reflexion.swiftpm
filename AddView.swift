@@ -126,11 +126,52 @@ struct AddView: View {
                     
                 }
                 
+                // Mood
+                Text("Mood")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                
+                HStack {
+                    let veryHappy = 0x1F601
+                    let happy = 0x1F600
+                    let neutral = 0x1F610
+                    let sad = 0x1F641
+                    let verySad = 0x1F614
+                    
+                    // Very sad
+                    Text(String(UnicodeScalar(verySad)!))
+                        .font(.custom("very sad", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        .padding(.horizontal)
+                    
+                    // Sad
+                    Text(String(UnicodeScalar(sad)!))
+                        .font(.custom("sad", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    
+                    // Neutral
+                    Text(String(UnicodeScalar(neutral)!))
+                        .font(.custom("neutral", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        .padding(.horizontal)
+                    
+                    // Happy
+                    Text(String(UnicodeScalar(happy)!))
+                        .font(.custom("happy", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    
+                    // Very happy
+                    Text(String(UnicodeScalar(veryHappy)!))
+                        .font(.custom("very happy", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        .padding(.horizontal)
+                    
+                }
+                
                 // Energy
                 Text("Energy")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                    .padding(.top)
                 
                 HStack {
                     let turtle = 0x1F422
@@ -202,7 +243,6 @@ struct AddView: View {
                     
                     Label("", systemImage: "checkmark.circle.fill")
                         .font(.system(size:75, weight: .bold))
-                    
                 }
                 
                 
