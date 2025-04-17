@@ -66,6 +66,11 @@ struct ContentView: View {
             } // End VStack
         } // End NavStack
         
+        // Changes background/theme
+        .foregroundColor(.white)
+        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+
+        
         
     }
     

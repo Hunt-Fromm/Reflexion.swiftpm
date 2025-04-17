@@ -28,9 +28,10 @@ struct AddView: View {
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     var body: some View {
-        
-        NavigationStack {
             
+        NavigationStack {
+        
+
             VStack(spacing: 0) {
                 
                 // Displays today's date
@@ -175,41 +176,44 @@ struct AddView: View {
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                 
-               
+                
                 
                 // Mrs. Carlson, I know this looks ugly but I just wanted to be able to create an assignment. If I have time I will make it look nicer.
                 
-                    Button {
-//                        let newAssignment = Assignment(name:newAssignmentName, subject: newAssignmentSubj, dueDate: String("\(newAssignmentMonth)/\(newAssignmentDay)/\(newAssignmentYear)"))
-//
-//                        list.append(newAssignment)
-                        
-                        print("list appended!!")
-
-                        // clears vars
-                        newAssignmentName = ""
-                        newAssignmentSubj = ""
-                        newAssignmentMonth = 0
-                        newAssignmentDay = 0
-                        newAssignmentYear = 0
-                        
-                        // Dismiss view
-                        dismiss()
-
-                    } label: {
-                        
-                        Label("", systemImage: "checkmark.circle.fill")
-                            .font(.system(size:75, weight: .bold))
-                        
-                    }
-
+                Button {
+                    //                        let newAssignment = Assignment(name:newAssignmentName, subject: newAssignmentSubj, dueDate: String("\(newAssignmentMonth)/\(newAssignmentDay)/\(newAssignmentYear)"))
+                    //
+                    //                        list.append(newAssignment)
                     
-                    .navigationBarHidden(true)
+                    print("list appended!!")
+                    
+                    // clears vars
+                    newAssignmentName = ""
+                    newAssignmentSubj = ""
+                    newAssignmentMonth = 0
+                    newAssignmentDay = 0
+                    newAssignmentYear = 0
+                    
+                    // Dismiss view
+                    dismiss()
+                    
+                } label: {
+                    
+                    Label("", systemImage: "checkmark.circle.fill")
+                        .font(.system(size:75, weight: .bold))
+                    
+                }
+                
+                
+                .navigationBarHidden(true)
                 
                 
             }
             
-        }
+        } // end of nav stack
+        .foregroundColor(.white)
+        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+            
     }
 }
 
