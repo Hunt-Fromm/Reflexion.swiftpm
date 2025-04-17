@@ -211,7 +211,7 @@ struct AddView: View {
             }
             
         } // end of nav stack
-        .foregroundColor(.white)
+        .foregroundStyle(.white)
         .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
             
     }

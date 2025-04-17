@@ -1,7 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var workouts: [Workout] = [Workout(type: "Run", dayOfTheWeek: "Tuesday", date: 15, month: 4, year: 2025, hours: 0, minutes: 30, mood: 4, energy: 2, reflection: "")]
+    // Workouts list currently filled with sample workouts
+    @State var workouts: [Workout] = [
+        Workout(type: "Run", dayOfTheWeek: "Tuesday", date: 15, month: 4, year: 2025, hours: 0, minutes: 30, mood: 4, energy: 2, reflection: ""),
+        Workout(type: "Yoga", date: 17, month: 4, year: 2025),
+        Workout(type: "Bike", date: 16, month: 4, year: 2025)
+    ]
     
     var body: some View {
         
@@ -42,7 +47,6 @@ struct ContentView: View {
                                             .foregroundStyle(.blue)
                                         Text("\(workout.type) - \(workout.month)/\(workout.date)/\(String(workout.year).prefix(1))\(String(workout.year).suffix(3))")
                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundStyle(.black)
                                             .padding(4)
                                             .offset(x: 5)
                                             
@@ -67,14 +71,14 @@ struct ContentView: View {
         } // End NavStack
         
         // Changes background/theme
-        .foregroundColor(.white)
+        .foregroundStyle(.white)
         .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
 
         
         
     }
     
-    // Bare bones of sortWorkouts function
+    /// Sorts Workout Objects in 'workouts' in chronological order
     func sortWorkouts() {
         var temp: Workout
         
@@ -96,6 +100,8 @@ struct ContentView: View {
                 workouts[minIndex] = workouts[i]
                 workouts[i] = temp
             }
+            
+            
         }
     }
 }
