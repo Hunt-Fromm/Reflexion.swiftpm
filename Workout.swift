@@ -42,6 +42,22 @@ struct Workout: Hashable {
         dateCode = year * 10000 + month * 100 + date
     }
     
+    /// Declaration for quick use of WorkoutLog
+    init(type: String, date: Int, month: Int, year: Int) {
+        self.type = type
+        self.dayOfTheWeek = "N/A"
+        self.date = date
+        self.month = month
+        self.year = year
+        self.hours = 0
+        self.minutes = 30
+        self.mood = 0
+        self.energy = 0
+        self.reflection = ""
+        
+        dateCode = year * 10000 + month * 100 + date
+    }
+    
     
     
     
