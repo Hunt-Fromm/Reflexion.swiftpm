@@ -133,19 +133,20 @@ struct AddView: View {
                     .padding(.top)
                 
                 HStack {
-                    let snail = 0x1F40C
+                    let turtle = 0x1F422
                     let rabbit = 0x1F407
                     let personWalking = 0x1F6B6
                     
                     // Big snail (low energy)
-                    Text(String(UnicodeScalar(snail)!))
-                        .font(.custom("snail", size: 40))
+                    Text(String(UnicodeScalar(turtle)!))
+                        .font(.custom("turtle", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
                         .padding(.horizontal)
                     
                     // Small snail (some energy)
-                    Text(String(UnicodeScalar(snail)!))
-                        .font(.custom("snail", size: 30))
-                        .padding(.leading)
+                    Text(String(UnicodeScalar(turtle)!))
+                        .font(.custom("turtle", size: 30))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
                     
                     // Human (medium energy)
                     Text(String(UnicodeScalar(personWalking)!))
@@ -211,7 +212,7 @@ struct AddView: View {
             }
             
         } // end of nav stack
-        .foregroundColor(.white)
+        .foregroundStyle(.white)
         .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
             
     }
