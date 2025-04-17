@@ -132,10 +132,37 @@ struct AddView: View {
                     .padding(.top)
                 
                 HStack {
-                    Image(systemName: "")
-                    
                     let snail = 0x1F40C
+                    let rabbit = 0x1F407
+                    let personWalking = 0x1F6B6
+                    
+                    // Big snail (low energy)
                     Text(String(UnicodeScalar(snail)!))
+                        .font(.custom("snail", size: 40))
+                        .padding(.horizontal)
+                    
+                    // Small snail (some energy)
+                    Text(String(UnicodeScalar(snail)!))
+                        .font(.custom("snail", size: 30))
+                        .padding(.leading)
+                    
+                    // Human (medium energy)
+                    Text(String(UnicodeScalar(personWalking)!))
+                        .font(.custom("human", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        .padding(.horizontal)
+                    
+                    // Small rabbit (more energy)
+                    Text(String(UnicodeScalar(rabbit)!))
+                        .font(.custom("rabbit", size: 30))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    
+                    // Big rabbit (high energy)
+                    Text(String(UnicodeScalar(rabbit)!))
+                        .font(.custom("rabbit", size: 40))
+                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        .padding(.horizontal)
+                    
                 }
                 
                 // Reflection
