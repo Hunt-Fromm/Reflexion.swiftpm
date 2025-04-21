@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StatsView: View {
+    @Binding var workouts: [Workout]
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -31,7 +33,7 @@ struct StatsView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddView()
+                        AddView(workouts: $workouts)
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 60, weight: .bold))
@@ -41,7 +43,7 @@ struct StatsView: View {
                     Spacer()
                     
                     NavigationLink {
-                        StatsView()
+                        StatsView(workouts: $workouts)
                     } label: {
                         Image(systemName: "chart.xyaxis.line")
                             .font(.system(size: 25))
@@ -55,6 +57,6 @@ struct StatsView: View {
     }
 }
 
-#Preview {
-    StatsView()
-}
+//#Preview {
+//    StatsView()
+//}

@@ -39,7 +39,7 @@ struct ContentView: View {
                                 let workout = workouts[index]
                                 
                                 NavigationLink(destination: {
-                                    DetailView(workout: workouts[index])
+                                    DetailView(workouts: $workouts, workout: workouts[index])
                                 }, label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 5)
@@ -85,7 +85,7 @@ struct ContentView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddView()
+                        AddView(workouts: $workouts)
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 60, weight: .bold))
@@ -95,7 +95,7 @@ struct ContentView: View {
                     Spacer()
                     
                     NavigationLink {
-                        StatsView()
+                        StatsView(workouts: $workouts)
                     } label: {
                         Image(systemName: "chart.xyaxis.line")
                             .font(.system(size: 25))
