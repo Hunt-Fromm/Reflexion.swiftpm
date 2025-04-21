@@ -9,11 +9,49 @@ import SwiftUI
 
 struct StatsView: View {
     var body: some View {
-        VStack {
-            Text("This View is Currently empty but will later contain STATS!!")
-                .multilineTextAlignment(.leading)
+        NavigationStack {
+            VStack {
+                Text("This View is Currently empty but will later contain STATS!!")
+                    .multilineTextAlignment(.leading)
+            }
+            
+            // Same toolbar for all views
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    
+                    
+                    NavigationLink {
+                        ContentView()
+                    } label: {
+                        Image(systemName: "list.dash")
+                            .font(.system(size: 25))
+                            .padding(.leading)
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        AddView()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 60, weight: .bold))
+                            .offset(x: 0, y: -10)
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        StatsView()
+                    } label: {
+                        Image(systemName: "chart.xyaxis.line")
+                            .font(.system(size: 25))
+                            .padding(.trailing)
+                    }
+
+                }
+            } // End toolbar
+            .navigationBarHidden(true)
         }
-//        .navigationBarHidden(true)
     }
 }
 

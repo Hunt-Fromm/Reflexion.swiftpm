@@ -69,12 +69,17 @@ struct ContentView: View {
                 } // End ScrollView
             } // End VStack
         
+            // Same toolbar for all views
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
+                    
+                    
                     NavigationLink {
                         ContentView()
                     } label: {
-                        Text("Log")
+                        Image(systemName: "list.dash")
+                            .font(.system(size: 25))
+                            .padding(.leading)
                     }
                     
                     Spacer()
@@ -82,7 +87,9 @@ struct ContentView: View {
                     NavigationLink {
                         AddView()
                     } label: {
-                        Text("+")
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 60, weight: .bold))
+                            .offset(x: 0, y: -10)
                     }
                     
                     Spacer()
@@ -90,7 +97,9 @@ struct ContentView: View {
                     NavigationLink {
                         StatsView()
                     } label: {
-                        Text("Stats")
+                        Image(systemName: "chart.xyaxis.line")
+                            .font(.system(size: 25))
+                            .padding(.trailing)
                     }
 
                 }
