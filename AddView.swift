@@ -17,6 +17,7 @@ let dateToday = calendar.component(.day, from: dateObject)
 // IS THERE ALSO A WAY TO FIND DAY OF THE WEEK? 
 
 struct AddView: View {
+    @Binding var workouts: [Workout]
     
     //@Binding var list:[Assignment]
     @Environment(\.dismiss) var dismiss
@@ -283,7 +284,7 @@ struct AddView: View {
                     Spacer()
                     
                     NavigationLink {
-                        StatsView()
+                        StatsView(workouts: $workouts)
                     } label: {
                         Image(systemName: "chart.xyaxis.line")
                             .font(.system(size: 25))
@@ -300,6 +301,6 @@ struct AddView: View {
     }
 }
 
-#Preview {
-    AddView()
-}
+//#Preview {
+//    AddView(workouts: $workouts)
+//}
