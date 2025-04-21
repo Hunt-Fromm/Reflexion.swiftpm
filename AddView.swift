@@ -306,9 +306,51 @@ struct AddView: View {
                 
             }
             
+            // Same toolbar for all views
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    
+                    
+                    NavigationLink {
+                        ContentView()
+                    } label: {
+                        Image(systemName: "list.dash")
+                            .font(.system(size: 25))
+                            .padding(.leading)
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        // MARK: Max, put your code for the check mark button here
+                        
+                        
+                        
+                        
+                        ContentView()
+                        
+                    } label: {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 60, weight: .bold))
+                            .offset(x: 0, y: -10)
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        StatsView()
+                    } label: {
+                        Image(systemName: "chart.xyaxis.line")
+                            .font(.system(size: 25))
+                            .padding(.trailing)
+                    }
+
+                }
+            } // End toolbar
+            
         } // end of nav stack
         .foregroundStyle(.white)
-        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        .preferredColorScheme(.dark)
             
     }
 }

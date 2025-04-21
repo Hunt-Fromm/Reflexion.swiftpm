@@ -1,24 +1,19 @@
 //
-//  DetailView.swift
+//  StatsView.swift
 //  Reflexion
 //
-//  Created by Frommelt, Hunter (512131) on 4/17/25.
+//  Created by Frommelt, Hunter (512131) on 4/21/25.
 //
 
 import SwiftUI
 
-struct DetailView: View {
-    var workout: Workout
-    
+struct StatsView: View {
     var body: some View {
-        
         NavigationStack {
-            
             VStack {
-                
-                Text("\(workout.descr)")
-                
-            } // End VStack
+                Text("This View is Currently empty but will later contain STATS!!")
+                    .multilineTextAlignment(.leading)
+            }
             
             // Same toolbar for all views
             .toolbar {
@@ -56,12 +51,10 @@ struct DetailView: View {
                 }
             } // End toolbar
             .navigationBarHidden(true)
-            
         }
-        
     }
 }
 
-//#Preview {
-//    DetailView(workout: Workout)
-//}
+#Preview {
+    StatsView()
+}

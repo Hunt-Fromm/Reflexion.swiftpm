@@ -38,9 +38,9 @@ struct ContentView: View {
                                 
                                 let workout = workouts[index]
                                 
-                                Button() {
-//                                     DetailView(workout: Workout)
-                                } label: {
+                                NavigationLink(destination: {
+                                    DetailView(workout: workouts[index])
+                                }, label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 5)
                                             .stroke(lineWidth: 3)
@@ -51,7 +51,7 @@ struct ContentView: View {
                                             .offset(x: 5)
                                             
                                     }
-                                }
+                                })
                                 
                             }
                             
@@ -68,11 +68,49 @@ struct ContentView: View {
                     
                 } // End ScrollView
             } // End VStack
+        
+            // Same toolbar for all views
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    
+                    
+                    NavigationLink {
+                        ContentView()
+                    } label: {
+                        Image(systemName: "list.dash")
+                            .font(.system(size: 25))
+                            .padding(.leading)
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        AddView()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 60, weight: .bold))
+                            .offset(x: 0, y: -10)
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        StatsView()
+                    } label: {
+                        Image(systemName: "chart.xyaxis.line")
+                            .font(.system(size: 25))
+                            .padding(.trailing)
+                    }
+
+                }
+            } // End toolbar
+            
         } // End NavStack
         
         // Changes background/theme
         .foregroundStyle(.white)
-        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        .preferredColorScheme(.dark)
+        .navigationBarHidden(true)
 
         
         
