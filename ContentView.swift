@@ -38,9 +38,9 @@ struct ContentView: View {
                                 
                                 let workout = workouts[index]
                                 
-                                Button() {
-//                                     DetailView(workout: Workout)
-                                } label: {
+                                NavigationLink(destination: {
+                                    DetailView(workout: workouts[index])
+                                }, label: {
                                     ZStack {
                                         RoundedRectangle(cornerRadius: 5)
                                             .stroke(lineWidth: 3)
@@ -51,7 +51,7 @@ struct ContentView: View {
                                             .offset(x: 5)
                                             
                                     }
-                                }
+                                })
                                 
                             }
                             
@@ -68,11 +68,40 @@ struct ContentView: View {
                     
                 } // End ScrollView
             } // End VStack
+        
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    NavigationLink {
+                        ContentView()
+                    } label: {
+                        Text("Log")
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        AddView()
+                    } label: {
+                        Text("+")
+                    }
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        StatsView()
+                    } label: {
+                        Text("Stats")
+                    }
+
+                }
+            } // End toolbar
+            
         } // End NavStack
         
         // Changes background/theme
         .foregroundStyle(.white)
-        .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+        .preferredColorScheme(.dark)
+        .navigationBarHidden(true)
 
         
         
