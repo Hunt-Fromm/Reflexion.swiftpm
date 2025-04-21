@@ -276,35 +276,9 @@ struct AddView: View {
                     .padding(.horizontal)
                     .frame(width: 400)
                 
-                
-                Button {
-                    //                        let newAssignment = Assignment(name:newAssignmentName, subject: newAssignmentSubj, dueDate: String("\(newAssignmentMonth)/\(newAssignmentDay)/\(newAssignmentYear)"))
-                    //
-                    //                        list.append(newAssignment)
-                    
-                    print("list appended!!")
-                    
-                    // clears vars
-                    newAssignmentName = ""
-                    newAssignmentSubj = ""
-                    newAssignmentMonth = 0
-                    newAssignmentDay = 0
-                    newAssignmentYear = 0
-                    
-                    // Dismiss view
-                    dismiss()
-                    
-                } label: {
-                    
-                    Label("", systemImage: "checkmark.circle.fill")
-                        .font(.system(size:75, weight: .bold))
-                }
-                
-                
                 .navigationBarHidden(true)
                 
-                
-            }
+            } // end of vstack
             
             // Same toolbar for all views
             .toolbar {
@@ -321,15 +295,13 @@ struct AddView: View {
                     
                     Spacer()
                     
-                    NavigationLink {
-                        // MARK: Max, put your code for the check mark button here
+                    Button {
                         
-                        
-                        
-                        
-                        ContentView()
+                        // Dismiss view
+                        dismiss()
                         
                     } label: {
+                        
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 60, weight: .bold))
                             .offset(x: 0, y: -10)
