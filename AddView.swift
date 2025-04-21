@@ -18,6 +18,9 @@ let dateToday = calendar.component(.day, from: dateObject)
 
 struct AddView: View {
     
+    // Variables YIPPEE!
+    @State var userMood: Int = 0
+    
     //@Binding var list:[Assignment]
     @Environment(\.dismiss) var dismiss
     @State var newAssignmentName = ""
@@ -44,21 +47,23 @@ struct AddView: View {
                 
                 // Workout details
                 
-                // Type
+                // MARK: Type
                 Text("Type")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     .padding(.top)
+                    .bold()
                 
                 TextField("Type of Workout", text: $newAssignmentName)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                 
-                // Date
+                // MARK: Date
                 Text("Date")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     .padding(.top)
+                    .bold()
                 
                 HStack {
                     // Day
@@ -95,11 +100,12 @@ struct AddView: View {
                     .frame(width: 100, height: 100)
                 }
                 
-                // Duration
+                // MARK: Duration
                 Text("Duration")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     .padding(.top)
+                    .bold()
                 
                 HStack {
                     // Hours
@@ -126,10 +132,11 @@ struct AddView: View {
                     
                 }
                 
-                // Mood
+                // MARK: Mood
                 Text("Mood")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                    .bold()
                 
                 HStack {
                     let veryHappy = 0x1F601
@@ -139,39 +146,88 @@ struct AddView: View {
                     let verySad = 0x1F614
                     
                     // Very sad
-                    Text(String(UnicodeScalar(verySad)!))
-                        .font(.custom("very sad", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .padding(.horizontal)
+                    Button {
+                        
+                        userMood = 1
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(verySad)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userMood == 1 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("very sad", size: 40))
+                            
+                    }
                     
                     // Sad
-                    Text(String(UnicodeScalar(sad)!))
-                        .font(.custom("sad", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    Button {
+                        
+                        userMood = 2
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(sad)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userMood == 2 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("sad", size: 40))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                     // Neutral
-                    Text(String(UnicodeScalar(neutral)!))
-                        .font(.custom("neutral", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .padding(.horizontal)
+                    Button {
+                        
+                        userMood = 3
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(neutral)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userMood == 3 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("neutral", size: 40))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        
+                    }
                     
                     // Happy
-                    Text(String(UnicodeScalar(happy)!))
-                        .font(.custom("happy", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    Button {
+                        
+                        userMood = 4
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(happy)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userMood == 4 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("happy", size: 40))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                     // Very happy
-                    Text(String(UnicodeScalar(veryHappy)!))
-                        .font(.custom("very happy", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .padding(.horizontal)
+                    Button {
+                        
+                        userMood = 5
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(veryHappy)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userMood == 5 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("very happy", size: 40))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                 }
                 
-                // Energy
+                // MARK: Energy
                 Text("Energy")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                    .bold()
                 
                 HStack {
                     let turtle = 0x1F422
@@ -208,8 +264,9 @@ struct AddView: View {
                     
                 }
                 
-                // Reflection
+                // MARK: Reflection
                 Text("Reflection (optional)")
+                    .bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     .padding(.top)
@@ -217,10 +274,8 @@ struct AddView: View {
                 TextField("Enter text", text: $newAssignmentSubj)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
+                    .frame(width: 400)
                 
-                
-                
-                // Mrs. Carlson, I know this looks ugly but I just wanted to be able to create an assignment. If I have time I will make it look nicer.
                 
                 Button {
                     //                        let newAssignment = Assignment(name:newAssignmentName, subject: newAssignmentSubj, dueDate: String("\(newAssignmentMonth)/\(newAssignmentDay)/\(newAssignmentYear)"))
