@@ -12,6 +12,9 @@ struct DetailView: View {
     
     var workout: Workout
     
+    // Makes dismissing possible
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         NavigationStack {

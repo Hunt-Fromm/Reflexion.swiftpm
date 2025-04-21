@@ -10,6 +10,9 @@ import SwiftUI
 struct StatsView: View {
     @Binding var workouts: [Workout]
     
+    // Makes dismissing possible
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationStack {
             VStack {
