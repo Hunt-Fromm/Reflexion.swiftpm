@@ -13,22 +13,29 @@ let calendar = Calendar.current
 let yearToday = calendar.component(.year, from: dateObject) // 2025
 let monthToday = calendar.component(.month, from: dateObject) // 1 thru 12 for Jan thru Dec
 let dateToday = calendar.component(.day, from: dateObject)
+let weekDay = calendar.component(.weekday, from: dateObject)
+let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+let dayOfWeek = days[weekDay-1]
 
-// IS THERE ALSO A WAY TO FIND DAY OF THE WEEK? 
+// IS THERE ALSO A WAY TO FIND DAY OF THE WEEK? -> YES!
 
 struct AddView: View {
     @Binding var workouts: [Workout]
     
     // Variables YIPPEE!
-    @State var userMood: Int = 0
     
     //@Binding var list:[Assignment]
     @Environment(\.dismiss) var dismiss
-    @State var newAssignmentName = ""
-    @State var newAssignmentSubj = ""
-    @State var newAssignmentDay = 0
-    @State var newAssignmentMonth = 0
-    @State var newAssignmentYear = 0
+    @State var newWorkoutType = ""
+    @State var newWorkoutHours = 0
+    @State var newWorkoutMinutes = 0
+    @State var newWorkoutDay = dateToday
+    @State var newWorkoutMonth = monthToday
+    @State var newWorkoutYear = yearToday
+    @State var userMood: Int = 0
+    @State var userEnergy: Int = 0
+    @State var userReflection: String = ""
+    
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     var body: some View {
@@ -55,7 +62,7 @@ struct AddView: View {
                     .padding(.top)
                     .bold()
                 
-                TextField("Type of Workout", text: $newAssignmentName)
+                TextField("Type of Workout", text: $newWorkoutType)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                 
@@ -68,7 +75,7 @@ struct AddView: View {
                 
                 HStack {
                     // Day
-                    Picker("", selection: $newAssignmentDay) {
+                    Picker("", selection: $newWorkoutDay) {
                         ForEach(1...31, id: \.self) {
                             index in
                             Text(String(index))
@@ -78,11 +85,11 @@ struct AddView: View {
                     .pickerStyle(WheelPickerStyle())
                     .frame(width: 75, height: 100)
                     
-                    // Date
-                    Picker("", selection: $newAssignmentMonth) {
-                        ForEach(0..<12, id: \.self) {
+                    // Month
+                    Picker("", selection: $newWorkoutMonth) {
+                        ForEach(1...12, id: \.self) {
                             index in
-                            Text(months[index])
+                            Text(months[index-1])
                         }
                         
                     }
@@ -90,7 +97,7 @@ struct AddView: View {
                     .frame(width: 150, height: 100)
                     
                     // Year
-                    Picker("", selection: $newAssignmentYear) {
+                    Picker("", selection: $newWorkoutYear) {
                         ForEach(2025...3000, id: \.self) {
                             index in
                             Text(String(index))
@@ -110,7 +117,7 @@ struct AddView: View {
                 
                 HStack {
                     // Hours
-                    Picker("", selection: $newAssignmentDay) {
+                    Picker("", selection: $newWorkoutHours) {
                         ForEach(0...23, id: \.self) {
                             index in
                             Text(String(index) + " hr")
@@ -121,8 +128,8 @@ struct AddView: View {
                     .frame(width: 75, height: 100)
                     
                     // Minutes
-                    Picker("", selection: $newAssignmentMonth) {
-                        ForEach(1...59, id: \.self) {
+                    Picker("", selection: $newWorkoutMinutes) {
+                        ForEach(0...59, id: \.self) {
                             index in
                             Text(String(index) + " min")
                         }
@@ -149,7 +156,7 @@ struct AddView: View {
                     // Very sad
                     Button {
                         
-                        userMood = 1
+                        userMood = userMood == 1 ? 0 : 1 // allows user to select and deselect emoji
                         
                     } label: {
                         
@@ -164,7 +171,7 @@ struct AddView: View {
                     // Sad
                     Button {
                         
-                        userMood = 2
+                        userMood = userMood == 2 ? 0 : 2 // allows user to select and deselect emoji
                         
                     } label: {
                         
@@ -179,7 +186,7 @@ struct AddView: View {
                     // Neutral
                     Button {
                         
-                        userMood = 3
+                        userMood = userMood == 3 ? 0 : 3 // allows user to select and deselect emoji
                         
                     } label: {
                         
@@ -195,7 +202,7 @@ struct AddView: View {
                     // Happy
                     Button {
                         
-                        userMood = 4
+                        userMood = userMood == 4 ? 0 : 4 // allows user to select and deselect emoji
                         
                     } label: {
                         
@@ -210,7 +217,7 @@ struct AddView: View {
                     // Very happy
                     Button {
                         
-                        userMood = 5
+                        userMood = userMood == 5 ? 0 : 5 // allows user to select and deselect emoji
                         
                     } label: {
                         
@@ -236,32 +243,79 @@ struct AddView: View {
                     let personWalking = 0x1F6B6
                     
                     // Big snail (low energy)
-                    Text(String(UnicodeScalar(turtle)!))
-                        .font(.custom("turtle", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .padding(.horizontal)
+                    Button {
+                        
+                        userEnergy = userEnergy == 1 ? 0 : 1 // allows user to select and deselect emoji
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(turtle)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userEnergy == 1 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("turtle", size: 40))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                     // Small snail (some energy)
-                    Text(String(UnicodeScalar(turtle)!))
-                        .font(.custom("turtle", size: 30))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    Button {
+                        
+                        userEnergy = userEnergy == 2 ? 0 : 2 // allows user to select and deselect emoji
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(turtle)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userEnergy == 2 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("turtle", size: 30))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                     // Human (medium energy)
-                    Text(String(UnicodeScalar(personWalking)!))
-                        .font(.custom("human", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .padding(.horizontal)
+                    Button {
+                        
+                        userEnergy = userEnergy == 3 ? 0 : 3 // allows user to select and deselect emoji
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(personWalking)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userEnergy == 3 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("human", size: 40))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                     // Small rabbit (more energy)
-                    Text(String(UnicodeScalar(rabbit)!))
-                        .font(.custom("rabbit", size: 30))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    Button {
+                        
+                       userEnergy = userEnergy == 4 ? 0 : 4 // allows user to select and deselect emoji
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(rabbit)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userEnergy == 4 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("rabbit", size: 30))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                     // Big rabbit (high energy)
-                    Text(String(UnicodeScalar(rabbit)!))
-                        .font(.custom("rabbit", size: 40))
-                        .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        .padding(.horizontal)
+                    Button {
+                        
+                        userEnergy = userEnergy == 5 ? 0 : 5 // allows user to select and deselect emoji
+                        
+                    } label: {
+                        
+                        Text(String(UnicodeScalar(rabbit)!))
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .background(Color.gray.opacity(userEnergy == 5 ? 0.25 : 0))
+                            .cornerRadius(20)
+                            .font(.custom("rabbit", size: 40))
+                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                    }
                     
                 }
                 
@@ -272,7 +326,7 @@ struct AddView: View {
                     .padding(.horizontal)
                     .padding(.top)
                 
-                TextField("Enter text", text: $newAssignmentSubj)
+                TextField("Enter text", text: $userReflection)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                     .frame(width: 400)
@@ -297,6 +351,15 @@ struct AddView: View {
                     Spacer()
                     
                     Button {
+                        
+                        // passes workouts list
+                        
+                        let newWorkout = Workout(type: newWorkoutType, dayOfTheWeek: "ignore", date: newWorkoutDay, month: newWorkoutMonth, year: newWorkoutYear, hours: newWorkoutHours, minutes: newWorkoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
+                        
+                        if (!isEmpty(workout: newWorkout)) {
+                            workouts.append(newWorkout)
+                        }
+                        
                         
                         // Dismiss view
                         dismiss()
@@ -326,6 +389,10 @@ struct AddView: View {
         .preferredColorScheme(.dark)
             
     }
+} // end of addView
+
+func isEmpty (workout: Workout) -> Bool {
+    return workout.type == ""
 }
 
 //#Preview {
