@@ -11,7 +11,7 @@ import SwiftUI
 let dateObject = Date()
 let calendar = Calendar.current
 let yearToday = calendar.component(.year, from: dateObject) // 2025
-let monthToday = calendar.component(.month, from: dateObject) // 1 thru 12 for Jan thru Dec
+let monthToday = calendar.component(.month, from: dateObject) - 1 // 0 thru 11 for Jan thru Dec
 let dateToday = calendar.component(.day, from: dateObject)
 
 // IS THERE ALSO A WAY TO FIND DAY OF THE WEEK? 
@@ -26,10 +26,18 @@ struct AddView: View {
     @Environment(\.dismiss) var dismiss
     @State var newAssignmentName = ""
     @State var newAssignmentSubj = ""
-    @State var newAssignmentDay = 0
-    @State var newAssignmentMonth = 0
-    @State var newAssignmentYear = 0
+    @State var newAssignmentDay = dateToday
+    @State var newAssignmentMonth = monthToday
+    @State var newAssignmentYear = yearToday
+    @State var newAssignmentHours = 0
+    @State var newAssignmentMinutes = 30
+    
+    @StateObject var stopWatch = StopWatch()
+    @State var stopWatchRunning = false
+    
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
+    @State var pickerVal = 0
     
     var body: some View {
             
@@ -44,6 +52,15 @@ struct AddView: View {
                     .font(.title)
                     .padding(.bottom)
                 
+                Picker("", selection: $pickerVal) {
+                    ForEach(0..<2, id: \.self) { index in
+                        Text(index == 0 ? "Completed" : "Current")
+                            .tag(index)
+                            .font(.custom("Arial", size: 40))
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .frame(width: UIScreen.main.bounds.width - 80)
                 
                 
                 // Workout details
@@ -102,34 +119,79 @@ struct AddView: View {
                 }
                 
                 // MARK: Duration
-                Text("Duration")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.top)
-                    .bold()
                 
-                HStack {
-                    // Hours
-                    Picker("", selection: $newAssignmentDay) {
-                        ForEach(0...23, id: \.self) {
-                            index in
-                            Text(String(index) + " hr")
-                        }
-                        
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: 75, height: 100)
+                // If workout completed, show selector for duration
+                if pickerVal == 0 {
                     
-                    // Minutes
-                    Picker("", selection: $newAssignmentMonth) {
-                        ForEach(1...59, id: \.self) {
-                            index in
-                            Text(String(index) + " min")
+                    Text("Duration")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.top)
+                        .bold()
+                    
+                    HStack {
+                        // Hours
+                        Picker("", selection: $newAssignmentHours) {
+                            ForEach(0...23, id: \.self) {
+                                index in
+                                Text(String(index) + " hr")
+                            }
+                            
                         }
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(width: 75, height: 100)
+                        
+                        // Minutes
+                        Picker("", selection: $newAssignmentMinutes) {
+                            ForEach(1...59, id: \.self) {
+                                index in
+                                Text(String(index) + " min")
+                            }
+                            
+                        }
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(width: 100, height: 100)
                         
                     }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: 100, height: 100)
+                } else { // Shows Timer to determine duration if workout is current
+                    
+                    HStack {
+                        
+                        Button() {
+                            
+                            if stopWatchRunning {
+                                stopWatch.stop()
+                            } else {
+                                stopWatch.start()
+                            }
+                            
+                            stopWatchRunning.toggle()
+                            
+                        } label: {
+                            
+                            Capsule()
+                                .frame(width: 100, height: 50)
+                                .foregroundStyle(stopWatchRunning ? .red : .green)
+                                .overlay {
+                                    Text(stopWatchRunning ? "Stop" : "Start")
+                                        .font(.custom("Arial Bold", size: 30))
+                                        .foregroundStyle(.white)
+                                }
+                        }
+                        
+                        Spacer()
+                            .frame(width: 120)
+                        
+                        Text("\(stopWatch.hours)")
+                        Text(":")
+                        Text("\(stopWatch.minutes)")
+                        Text(":")
+                        Text("\(String(format: "%.1f", stopWatch.getSeconds()))")
+                        
+                        
+                        
+                    }
+                    .foregroundStyle(.white)
                     
                 }
                 
