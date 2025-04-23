@@ -40,6 +40,9 @@ struct AddView: View {
     
     @State var pickerVal = 0
     
+    @StateObject var stopWatch = StopWatch()
+    @State var stopWatchRunning = false
+    
     var body: some View {
             
         NavigationStack {
@@ -132,7 +135,7 @@ struct AddView: View {
                     
                     HStack {
                         // Hours
-                        Picker("", selection: $newAssignmentHours) {
+                        Picker("", selection: $newWorkoutHours) {
                             ForEach(0...23, id: \.self) {
                                 index in
                                 Text(String(index) + " hr")
@@ -143,7 +146,7 @@ struct AddView: View {
                         .frame(width: 75, height: 100)
                         
                         // Minutes
-                        Picker("", selection: $newAssignmentMinutes) {
+                        Picker("", selection: $newWorkoutMinutes) {
                             ForEach(1...59, id: \.self) {
                                 index in
                                 Text(String(index) + " min")
