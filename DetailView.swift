@@ -25,42 +25,54 @@ struct DetailView: View {
                 
             } // End VStack
             
-            // Same toolbar for all views
-            .toolbar {
-                ToolbarItemGroup(placement: .bottomBar) {
-                    
-                    
-                    NavigationLink {
-                        ContentView()
-                    } label: {
-                        Image(systemName: "list.dash")
-                            .font(.system(size: 25))
-                            .padding(.leading)
-                    }
-                    
-                    Spacer()
-                    
-                    NavigationLink {
-                        AddView(workouts: $workouts)
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 60, weight: .bold))
-                            .offset(x: 0, y: -10)
-                    }
-                    
-                    Spacer()
-                    
-                    NavigationLink {
-                        StatsView(workouts: $workouts)
-                    } label: {
-                        Image(systemName: "chart.xyaxis.line")
-                            .font(.system(size: 25))
-                            .padding(.trailing)
-                    }
-
-                }
-            } // End toolbar
-            .navigationBarHidden(true)
+//            // Same toolbar for all views
+//            .toolbar {
+//                ToolbarItemGroup(placement: .bottomBar) {
+//                    
+//                    // Content View
+////                    NavigationLink {
+////                        ContentView()
+////                        //dismiss()
+////                    } label: {
+////                        Image(systemName: "list.dash")
+////                            .font(.system(size: 25))
+////                            .padding(.leading)
+////                    }
+//                    
+//                    Button {
+//                        //ContentView()
+//                        dismiss()
+//                    } label: {
+//                        Image(systemName: "list.dash")
+//                            .font(.system(size: 25))
+//                            .padding(.leading)
+//                    }
+//                    
+//                    Spacer()
+//                    
+//                    // Add View
+//                    NavigationLink {
+//                        AddView(workouts: $workouts)
+//                    } label: {
+//                        Image(systemName: "plus.circle.fill")
+//                            .font(.system(size: 60, weight: .bold))
+//                            .offset(x: 0, y: -10)
+//                    }
+//                    
+//                    Spacer()
+//                    
+//                    // Stats View
+//                    NavigationLink {
+//                        StatsView(workouts: $workouts)
+//                    } label: {
+//                        Image(systemName: "chart.xyaxis.line")
+//                            .font(.system(size: 25))
+//                            .padding(.trailing)
+//                    }
+//
+//                }
+//            } // End toolbar
+            //.navigationBarHidden(true)
             
         }
         

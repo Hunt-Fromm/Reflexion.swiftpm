@@ -340,13 +340,13 @@ struct AddView: View {
                 ToolbarItemGroup(placement: .bottomBar) {
                     
                     
-                    NavigationLink {
-                        ContentView()
-                    } label: {
-                        Image(systemName: "list.dash")
-                            .font(.system(size: 25))
-                            .padding(.leading)
-                    }
+//                    NavigationLink {
+//                        ContentView()
+//                    } label: {
+//                        Image(systemName: "list.dash")
+//                            .font(.system(size: 25))
+//                            .padding(.leading)
+//                    }
                     
                     Spacer()
                     
@@ -373,13 +373,13 @@ struct AddView: View {
                     
                     Spacer()
                     
-                    NavigationLink {
-                        StatsView(workouts: $workouts)
-                    } label: {
-                        Image(systemName: "chart.xyaxis.line")
-                            .font(.system(size: 25))
-                            .padding(.trailing)
-                    }
+//                    NavigationLink {
+//                        StatsView(workouts: $workouts)
+//                    } label: {
+//                        Image(systemName: "chart.xyaxis.line")
+//                            .font(.system(size: 25))
+//                            .padding(.trailing)
+//                    }
 
                 }
             } // End toolbar

@@ -73,9 +73,9 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     
-                    
-                    NavigationLink {
-                        ContentView()
+                    // Content View
+                    Button {
+                        //ContentView()
                     } label: {
                         Image(systemName: "list.dash")
                             .font(.system(size: 25))

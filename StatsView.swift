@@ -25,8 +25,9 @@ struct StatsView: View {
                 ToolbarItemGroup(placement: .bottomBar) {
                     
                     
-                    NavigationLink {
-                        ContentView()
+                    Button {
+                        //ContentView()
+                        dismiss()
                     } label: {
                         Image(systemName: "list.dash")
                             .font(.system(size: 25))
@@ -45,8 +46,9 @@ struct StatsView: View {
                     
                     Spacer()
                     
-                    NavigationLink {
-                        StatsView(workouts: $workouts)
+                    // Stats View
+                    Button {
+                        //StatsView(workouts: $workouts)
                     } label: {
                         Image(systemName: "chart.xyaxis.line")
                             .font(.system(size: 25))
