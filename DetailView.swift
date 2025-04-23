@@ -25,13 +25,22 @@ struct DetailView: View {
                 
             } // End VStack
             
-            // Same toolbar for all views
+//            // Same toolbar for all views
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     
-                    
-                    NavigationLink {
-                        ContentView()
+                    // Content View
+//                    NavigationLink {
+//                        ContentView()
+//                        //dismiss()
+//                    } label: {
+//                        Image(systemName: "list.dash")
+//                            .font(.system(size: 25))
+//                            .padding(.leading)
+//                    }
+//                    
+                    Button {
+                        dismiss()
                     } label: {
                         Image(systemName: "list.dash")
                             .font(.system(size: 25))
@@ -40,6 +49,7 @@ struct DetailView: View {
                     
                     Spacer()
                     
+                    // Add View
                     NavigationLink {
                         AddView(workouts: $workouts)
                     } label: {
@@ -50,6 +60,7 @@ struct DetailView: View {
                     
                     Spacer()
                     
+                    // Stats View
                     NavigationLink {
                         StatsView(workouts: $workouts)
                     } label: {
@@ -60,7 +71,7 @@ struct DetailView: View {
 
                 }
             } // End toolbar
-            .navigationBarHidden(true)
+            //.navigationBarHidden(true)
             
         }
         
