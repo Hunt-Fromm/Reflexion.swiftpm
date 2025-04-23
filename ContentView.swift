@@ -75,7 +75,7 @@ struct ContentView: View {
                     
                     // Content View
                     Button {
-                        //ContentView()
+                        // Do not need any code
                     } label: {
                         Image(systemName: "list.dash")
                             .font(.system(size: 25))
@@ -84,6 +84,7 @@ struct ContentView: View {
                     
                     Spacer()
                     
+                    // Add View
                     NavigationLink {
                         AddView(workouts: $workouts)
                     } label: {
@@ -94,6 +95,7 @@ struct ContentView: View {
                     
                     Spacer()
                     
+                    // Stats View
                     NavigationLink {
                         StatsView(workouts: $workouts)
                     } label: {
