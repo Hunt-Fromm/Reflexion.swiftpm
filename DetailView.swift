@@ -15,6 +15,8 @@ struct DetailView: View {
     // Makes dismissing possible
     @Environment(\.dismiss) var dismiss
     
+    let appFont:String = "DINAlternate-Bold"
+    
     var body: some View {
         
         NavigationStack {
@@ -22,11 +24,24 @@ struct DetailView: View {
             VStack {
                 
                 Text("\(workout.descr)")
+                    .font(.custom(appFont, size: 20))
                 
             } // End VStack
             
 //            // Same toolbar for all views
             .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                        Image(systemName: "list.dash")
+                            .font(.system(size: 25))
+                            //.padding(.leading)
+                    }
+                    
+                }
+                
                 ToolbarItemGroup(placement: .bottomBar) {
                     
                     // Content View
@@ -39,39 +54,40 @@ struct DetailView: View {
 //                            .padding(.leading)
 //                    }
 //                    
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "list.dash")
-                            .font(.system(size: 25))
-                            .padding(.leading)
-                    }
+//                    Button {
+//                        dismiss()
+//                    } label: {
+//                        Image(systemName: "list.dash")
+//                            .font(.system(size: 25))
+//                            .padding(.leading)
+//                    }
+//                    .offset(x: -144, y: 0)
                     
-                    Spacer()
-                    
-                    // Add View
-                    NavigationLink {
-                        AddView(workouts: $workouts)
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 60, weight: .bold))
-                            .offset(x: 0, y: -10)
-                    }
-                    
-                    Spacer()
-                    
-                    // Stats View
-                    NavigationLink {
-                        StatsView(workouts: $workouts)
-                    } label: {
-                        Image(systemName: "chart.xyaxis.line")
-                            .font(.system(size: 25))
-                            .padding(.trailing)
-                    }
+//                    Spacer()
+//                    
+//                    // Add View
+//                    NavigationLink {
+//                        AddView(workouts: $workouts)
+//                    } label: {
+//                        Image(systemName: "plus.circle.fill")
+//                            .font(.system(size: 60, weight: .bold))
+//                            .offset(x: 0, y: -10)
+//                    }
+//                    
+//                    Spacer()
+//                    
+//                    // Stats View
+//                    NavigationLink {
+//                        StatsView(workouts: $workouts)
+//                    } label: {
+//                        Image(systemName: "chart.xyaxis.line")
+//                            .font(.system(size: 25))
+//                            .padding(.trailing)
+//                    }
 
                 }
             } // End toolbar
-            //.navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
             
         }
         
