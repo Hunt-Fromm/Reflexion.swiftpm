@@ -36,6 +36,9 @@ struct AddView: View {
     @State var userEnergy: Int = 0
     @State var userReflection: String = ""
     
+    @State var addingType = false
+    @State var workoutTypes: [String] = ["Gym", "Run", "Hike", "Other"]
+    
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     @State var pickerVal = 0
@@ -75,6 +78,51 @@ struct AddView: View {
                     .padding(.horizontal)
                     .padding(.top)
                     .bold()
+                
+                HStack {
+                    Spacer()
+                        .frame(width: 10, height: 40)
+                    ForEach(workoutTypes, id: \.self) { type in
+                        Button() {
+                            newWorkoutType = type
+                        } label: {
+                            ZStack {
+                                Capsule()
+                                    .stroke(lineWidth: 3)
+                                    .frame(width: 25 + CGFloat(10 * type.count), height: 30)
+                                    .foregroundStyle(.blue)
+                                Capsule()
+                                    .frame(width: 25 + CGFloat(10 * type.count), height: 30)
+                                    .foregroundStyle(.blue)
+                                    .opacity(newWorkoutType == type ? 0.25 : 0)
+                                Text("\(type)")
+                            }
+                            .padding(2)
+                        }
+                    }
+                    
+                    Button() {
+                        addingType = true
+                    } label: {
+                        if addingType {
+                            
+                        } else {
+                            ZStack {
+                                Capsule()
+                                    .stroke(lineWidth: 3)
+                                    .frame(width: 25, height: 30)
+                                    .foregroundStyle(.blue)
+                                Capsule()
+                                    .frame(width: 25, height: 30)
+                                    .foregroundStyle(.blue)
+                                Text("")
+                            }
+                            .padding(2)
+                        }
+                    }
+                    
+                    Spacer()
+                }
                 
                 TextField("Type of Workout", text: $newWorkoutType)
                     .textFieldStyle(.roundedBorder)
@@ -184,7 +232,8 @@ struct AddView: View {
                         }
                         
                         Spacer()
-                            .frame(width: 120)
+                            
+                            
                         
                         Text("\(stopWatch.hours)")
                         Text(":")
@@ -195,6 +244,8 @@ struct AddView: View {
                         
                         
                     }
+                    .frame(width: 300)
+                    .padding(25)
                     .foregroundStyle(.white)
                     
                 }

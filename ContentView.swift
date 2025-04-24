@@ -224,6 +224,7 @@ struct ContentView: View {
     
     
     func sortWorkoutsByMonth() {
+        workoutsByMonth = []
         
         // Sorting workouts in reverse chronological order
         sortWorkouts()
