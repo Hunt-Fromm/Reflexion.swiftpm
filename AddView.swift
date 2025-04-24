@@ -11,7 +11,7 @@ import SwiftUI
 let dateObject = Date()
 let calendar = Calendar.current
 let yearToday = calendar.component(.year, from: dateObject) // 2025
-let monthToday = calendar.component(.month, from: dateObject) - 1 // 0 thru 11 for Jan thru Dec
+let monthToday = calendar.component(.month, from: dateObject) // 0 thru 11 for Jan thru Dec
 let dateToday = calendar.component(.day, from: dateObject)
 let weekDay = calendar.component(.weekday, from: dateObject)
 let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -26,9 +26,10 @@ struct AddView: View {
     
     //@Binding var list:[Assignment]
     @Environment(\.dismiss) var dismiss
+    
     @State var newWorkoutType = ""
     @State var newWorkoutHours = 0
-    @State var newWorkoutMinutes = 0
+    @State var newWorkoutMinutes = 30
     @State var newWorkoutDay = dateToday
     @State var newWorkoutMonth = monthToday
     @State var newWorkoutYear = yearToday
@@ -36,7 +37,15 @@ struct AddView: View {
     @State var userEnergy: Int = 0
     @State var userReflection: String = ""
     
+    // Whether or not user is adding a new workout type
     @State var addingType = false
+    
+    // Text for the new workout type being added
+    @State var newTypeText = ""
+    
+    // The box the user has selected as their workout type
+    @State var typeSelection = ""
+    
     @State var workoutTypes: [String] = ["Gym", "Run", "Hike", "Other"]
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -50,400 +59,435 @@ struct AddView: View {
             
         NavigationStack {
         
-
-            VStack(spacing: 0) {
+            ScrollView {
                 
-                // Displays today's date
-                Text("New Workout")
-                    .bold()
-                    .font(.title)
-                    .padding(.bottom)
-                
-                Picker("", selection: $pickerVal) {
-                    ForEach(0..<2, id: \.self) { index in
-                        Text(index == 0 ? "Completed" : "Current")
-                            .tag(index)
-                            .font(.custom("Arial", size: 40))
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .frame(width: UIScreen.main.bounds.width - 80)
-                
-                
-                // Workout details
-                
-                // MARK: Type
-                Text("Type")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.top)
-                    .bold()
-                
-                HStack {
-                    Spacer()
-                        .frame(width: 10, height: 40)
-                    ForEach(workoutTypes, id: \.self) { type in
-                        Button() {
-                            newWorkoutType = type
-                        } label: {
-                            ZStack {
-                                Capsule()
-                                    .stroke(lineWidth: 3)
-                                    .frame(width: 25 + CGFloat(10 * type.count), height: 30)
-                                    .foregroundStyle(.blue)
-                                Capsule()
-                                    .frame(width: 25 + CGFloat(10 * type.count), height: 30)
-                                    .foregroundStyle(.blue)
-                                    .opacity(newWorkoutType == type ? 0.25 : 0)
-                                Text("\(type)")
-                            }
-                            .padding(2)
-                        }
-                    }
+                VStack(spacing: 0) {
                     
-                    Button() {
-                        addingType = true
-                    } label: {
-                        if addingType {
-                            
-                        } else {
-                            ZStack {
-                                Capsule()
-                                    .stroke(lineWidth: 3)
-                                    .frame(width: 25, height: 30)
-                                    .foregroundStyle(.blue)
-                                Capsule()
-                                    .frame(width: 25, height: 30)
-                                    .foregroundStyle(.blue)
-                                Text("")
-                            }
-                            .padding(2)
+                    // Displays today's date
+                    Text("New Workout")
+                        .bold()
+                        .font(.title)
+                        .padding(.bottom)
+                    
+                    Picker("", selection: $pickerVal) {
+                        ForEach(0..<2, id: \.self) { index in
+                            Text(index == 0 ? "Completed" : "Current")
+                                .tag(index)
+                                .font(.custom("Arial", size: 40))
                         }
                     }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .frame(width: UIScreen.main.bounds.width - 80)
+                    
+                    
+                    // Workout details
+                    
+                    // MARK: Type
+                    Text("Type")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.top)
+                        .bold()
                     
                     Spacer()
-                }
-                
-                TextField("Type of Workout", text: $newWorkoutType)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal)
-                
-                // MARK: Date
-                Text("Date")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.top)
-                    .bold()
-                
-                HStack {
-                    // Day
-                    Picker("", selection: $newWorkoutDay) {
-                        ForEach(1...31, id: \.self) {
-                            index in
-                            Text(String(index))
+                        .frame(height: 10)
+                    
+                    HStack {
+                        Spacer()
+                            .frame(width: 15, height: 30)
+                        ForEach(workoutTypes, id: \.self) { type in
+                            Button() {
+                                
+                                // Selects or Disselects clicked-on type
+                                if typeSelection != type {
+                                    typeSelection = type
+                                } else {
+                                    typeSelection = ""
+                                }
+                                
+                                if typeSelection != "Other" {
+                                    newWorkoutType = typeSelection
+                                }
+                                
+                            } label: {
+                                ZStack {
+                                    Capsule()
+                                        .stroke(lineWidth: 3)
+                                        .frame(width: 25 + CGFloat(10 * type.count), height: 30)
+                                        .foregroundStyle(.blue)
+                                    Capsule()
+                                        .frame(width: 25 + CGFloat(10 * type.count), height: 30)
+                                        .foregroundStyle(.blue)
+                                        .opacity(typeSelection == type ? 0.25 : 0)
+                                    Text("\(type)")
+                                }
+                                .padding(2)
+                            }
                         }
                         
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: 75, height: 100)
-                    
-                    // Month
-                    Picker("", selection: $newWorkoutMonth) {
-                        ForEach(1...12, id: \.self) {
-                            index in
-                            Text(months[index-1])
-                        }
+                        // WIP Button to add additional workout types
+                        /*
+                         Button() {
+                         addingType = true
+                         } label: {
+                         if addingType {
+                         ZStack {
+                         Capsule()
+                         .stroke(lineWidth: 3)
+                         .frame(width: 30 + CGFloat(newTypeText.count * 10), height: 30)
+                         .foregroundStyle(.blue)
+                         
+                         TextField("", text: $newTypeText)
+                         .foregroundStyle(.white)
+                         .onSubmit {
+                         workoutTypes.append(newTypeText)
+                         addingType = false
+                         }
+                         }
+                         } else {
+                         ZStack {
+                         Capsule()
+                         .stroke(lineWidth: 3)
+                         .frame(width: 30, height: 30)
+                         .foregroundStyle(.blue)
+                         
+                         Text("+")
+                         }
+                         .padding(2)
+                         }
+                         }*/
                         
+                        Spacer()
                     }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: 150, height: 100)
                     
-                    // Year
-                    Picker("", selection: $newWorkoutYear) {
-                        ForEach(2025...3000, id: \.self) {
-                            index in
-                            Text(String(index))
-                        }
-                        
+                    if typeSelection == "Other" {
+                        TextField("Type of Workout", text: $newWorkoutType)
+                            .textFieldStyle(.roundedBorder)
+                            .padding(.horizontal)
                     }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(width: 100, height: 100)
-                }
-                
-                // MARK: Duration
-                
-                // If workout completed, show selector for duration
-                if pickerVal == 0 {
                     
-                    Text("Duration")
+                    // MARK: Date
+                    Text("Date")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
                         .padding(.top)
                         .bold()
                     
                     HStack {
-                        // Hours
-                        Picker("", selection: $newWorkoutHours) {
-                            ForEach(0...23, id: \.self) {
+                        // Day
+                        Picker("", selection: $newWorkoutDay) {
+                            ForEach(1...31, id: \.self) {
                                 index in
-                                Text(String(index) + " hr")
+                                Text(String(index))
                             }
                             
                         }
                         .pickerStyle(WheelPickerStyle())
                         .frame(width: 75, height: 100)
                         
-                        // Minutes
-                        Picker("", selection: $newWorkoutMinutes) {
-                            ForEach(1...59, id: \.self) {
+                        // Month
+                        Picker("", selection: $newWorkoutMonth) {
+                            ForEach(1...12, id: \.self) {
                                 index in
-                                Text(String(index) + " min")
+                                Text(months[index-1])
+                            }
+                            
+                        }
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(width: 150, height: 100)
+                        
+                        // Year
+                        Picker("", selection: $newWorkoutYear) {
+                            ForEach(2025...3000, id: \.self) {
+                                index in
+                                Text(String(index))
                             }
                             
                         }
                         .pickerStyle(WheelPickerStyle())
                         .frame(width: 100, height: 100)
-                        
                     }
-                } else { // Shows Timer to determine duration if workout is current
                     
-                    HStack {
+                    // MARK: Duration
+                    
+                    // If workout completed, show selector for duration
+                    if pickerVal == 0 {
                         
-                        Button() {
+                        Text("Duration")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                            .padding(.top)
+                            .bold()
+                        
+                        HStack {
+                            // Hours
+                            Picker("", selection: $newWorkoutHours) {
+                                ForEach(0...23, id: \.self) {
+                                    index in
+                                    Text(String(index) + " hr")
+                                }
+                                
+                            }
+                            .pickerStyle(WheelPickerStyle())
+                            .frame(width: 75, height: 100)
                             
-                            if stopWatchRunning {
-                                stopWatch.stop()
-                            } else {
-                                stopWatch.start()
+                            // Minutes
+                            Picker("", selection: $newWorkoutMinutes) {
+                                ForEach(0...59, id: \.self) {
+                                    index in
+                                    Text(String(index) + " min")
+                                    
+                                    
+                                }
+                                
+                            }
+                            .pickerStyle(WheelPickerStyle())
+                            .frame(width: 100, height: 100)
+                            
+                        }
+                    } else { // Shows Timer to determine duration if workout is current
+                        
+                        HStack {
+                            
+                            Button() {
+                                
+                                if stopWatchRunning {
+                                    stopWatch.stop()
+                                } else {
+                                    stopWatch.start()
+                                }
+                                
+                                stopWatchRunning.toggle()
+                                
+                            } label: {
+                                
+                                Capsule()
+                                    .frame(width: 100, height: 50)
+                                    .foregroundStyle(stopWatchRunning ? .red : .green)
+                                    .overlay {
+                                        Text(stopWatchRunning ? "Stop" : "Start")
+                                            .font(.custom("Arial Bold", size: 30))
+                                            .foregroundStyle(.white)
+                                    }
                             }
                             
-                            stopWatchRunning.toggle()
+                            Spacer()
+                            
+                            
+                            
+                            Text("\(stopWatch.hours)")
+                            Text(":")
+                            Text("\(stopWatch.minutes)")
+                            Text(":")
+                            Text("\(String(format: "%.1f", stopWatch.getSeconds()))")
+                            
+                            
+                            
+                        }
+                        .frame(width: 300)
+                        .padding(25)
+                        .foregroundStyle(.white)
+                        
+                    }
+                    
+                    // MARK: Mood
+                    Text("Mood")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .bold()
+                    
+                    HStack {
+                        let veryHappy = 0x1F601
+                        let happy = 0x1F600
+                        let neutral = 0x1F610
+                        let sad = 0x1F641
+                        let verySad = 0x1F614
+                        
+                        // Very sad
+                        Button {
+                            
+                            userMood = userMood == 1 ? 0 : 1 // allows user to select and deselect emoji
                             
                         } label: {
                             
-                            Capsule()
-                                .frame(width: 100, height: 50)
-                                .foregroundStyle(stopWatchRunning ? .red : .green)
-                                .overlay {
-                                    Text(stopWatchRunning ? "Stop" : "Start")
-                                        .font(.custom("Arial Bold", size: 30))
-                                        .foregroundStyle(.white)
-                                }
+                            Text(String(UnicodeScalar(verySad)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userMood == 1 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("very sad", size: 40))
+                            
                         }
                         
-                        Spacer()
+                        // Sad
+                        Button {
                             
+                            userMood = userMood == 2 ? 0 : 2 // allows user to select and deselect emoji
                             
-                        
-                        Text("\(stopWatch.hours)")
-                        Text(":")
-                        Text("\(stopWatch.minutes)")
-                        Text(":")
-                        Text("\(String(format: "%.1f", stopWatch.getSeconds()))")
-                        
-                        
-                        
-                    }
-                    .frame(width: 300)
-                    .padding(25)
-                    .foregroundStyle(.white)
-                    
-                }
-                
-                // MARK: Mood
-                Text("Mood")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .bold()
-                
-                HStack {
-                    let veryHappy = 0x1F601
-                    let happy = 0x1F600
-                    let neutral = 0x1F610
-                    let sad = 0x1F641
-                    let verySad = 0x1F614
-                    
-                    // Very sad
-                    Button {
-                        
-                        userMood = userMood == 1 ? 0 : 1 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(verySad)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userMood == 1 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("very sad", size: 40))
+                        } label: {
                             
+                            Text(String(UnicodeScalar(sad)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userMood == 2 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("sad", size: 40))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
+                        
+                        // Neutral
+                        Button {
+                            
+                            userMood = userMood == 3 ? 0 : 3 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(neutral)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userMood == 3 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("neutral", size: 40))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                            
+                        }
+                        
+                        // Happy
+                        Button {
+                            
+                            userMood = userMood == 4 ? 0 : 4 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(happy)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userMood == 4 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("happy", size: 40))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
+                        
+                        // Very happy
+                        Button {
+                            
+                            userMood = userMood == 5 ? 0 : 5 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(veryHappy)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userMood == 5 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("very happy", size: 40))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
+                        
                     }
                     
-                    // Sad
-                    Button {
+                    // MARK: Energy
+                    Text("Energy")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .bold()
+                    
+                    HStack {
+                        let turtle = 0x1F422
+                        let rabbit = 0x1F407
+                        let personWalking = 0x1F6B6
                         
-                        userMood = userMood == 2 ? 0 : 2 // allows user to select and deselect emoji
+                        // Big snail (low energy)
+                        Button {
+                            
+                            userEnergy = userEnergy == 1 ? 0 : 1 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(turtle)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userEnergy == 1 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("turtle", size: 40))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
                         
-                    } label: {
+                        // Small snail (some energy)
+                        Button {
+                            
+                            userEnergy = userEnergy == 2 ? 0 : 2 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(turtle)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userEnergy == 2 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("turtle", size: 30))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
                         
-                        Text(String(UnicodeScalar(sad)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userMood == 2 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("sad", size: 40))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        // Human (medium energy)
+                        Button {
+                            
+                            userEnergy = userEnergy == 3 ? 0 : 3 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(personWalking)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userEnergy == 3 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("human", size: 40))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
+                        
+                        // Small rabbit (more energy)
+                        Button {
+                            
+                            userEnergy = userEnergy == 4 ? 0 : 4 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(rabbit)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userEnergy == 4 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("rabbit", size: 30))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
+                        
+                        // Big rabbit (high energy)
+                        Button {
+                            
+                            userEnergy = userEnergy == 5 ? 0 : 5 // allows user to select and deselect emoji
+                            
+                        } label: {
+                            
+                            Text(String(UnicodeScalar(rabbit)!))
+                                .frame(width: 60, height: 60, alignment: .center)
+                                .background(Color.gray.opacity(userEnergy == 5 ? 0.25 : 0))
+                                .cornerRadius(20)
+                                .font(.custom("rabbit", size: 40))
+                                .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                        }
+                        
                     }
                     
-                    // Neutral
-                    Button {
-                        
-                        userMood = userMood == 3 ? 0 : 3 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(neutral)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userMood == 3 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("neutral", size: 40))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                        
-                    }
+                    // MARK: Reflection
+                    Text("Reflection (optional)")
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.top)
                     
-                    // Happy
-                    Button {
-                        
-                        userMood = userMood == 4 ? 0 : 4 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(happy)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userMood == 4 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("happy", size: 40))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    }
+                    TextField("Enter text", text: $userReflection)
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal)
+                        .frame(width: 400)
                     
-                    // Very happy
-                    Button {
-                        
-                        userMood = userMood == 5 ? 0 : 5 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(veryHappy)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userMood == 5 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("very happy", size: 40))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    }
+                        .navigationBarHidden(true)
                     
-                }
+                } // end of vstack
                 
-                // MARK: Energy
-                Text("Energy")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .bold()
-                
-                HStack {
-                    let turtle = 0x1F422
-                    let rabbit = 0x1F407
-                    let personWalking = 0x1F6B6
-                    
-                    // Big snail (low energy)
-                    Button {
-                        
-                        userEnergy = userEnergy == 1 ? 0 : 1 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(turtle)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userEnergy == 1 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("turtle", size: 40))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    }
-                    
-                    // Small snail (some energy)
-                    Button {
-                        
-                        userEnergy = userEnergy == 2 ? 0 : 2 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(turtle)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userEnergy == 2 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("turtle", size: 30))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    }
-                    
-                    // Human (medium energy)
-                    Button {
-                        
-                        userEnergy = userEnergy == 3 ? 0 : 3 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(personWalking)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userEnergy == 3 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("human", size: 40))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    }
-                    
-                    // Small rabbit (more energy)
-                    Button {
-                        
-                       userEnergy = userEnergy == 4 ? 0 : 4 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(rabbit)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userEnergy == 4 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("rabbit", size: 30))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    }
-                    
-                    // Big rabbit (high energy)
-                    Button {
-                        
-                        userEnergy = userEnergy == 5 ? 0 : 5 // allows user to select and deselect emoji
-                        
-                    } label: {
-                        
-                        Text(String(UnicodeScalar(rabbit)!))
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .background(Color.gray.opacity(userEnergy == 5 ? 0.25 : 0))
-                            .cornerRadius(20)
-                            .font(.custom("rabbit", size: 40))
-                            .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
-                    }
-                    
-                }
-                
-                // MARK: Reflection
-                Text("Reflection (optional)")
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
-                    .padding(.top)
-                
-                TextField("Enter text", text: $userReflection)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal)
-                    .frame(width: 400)
-                
-                .navigationBarHidden(true)
-                
-            } // end of vstack
+            } // End ScrollView
+            .tint(.white)
+            
             
             // Same toolbar for all views
             .toolbar {
@@ -461,6 +505,11 @@ struct AddView: View {
                     Spacer()
                     
                     Button {
+                        
+                        // Changes newWorkoutType to "Other" if it was originally empty
+                        if newWorkoutType == "" {
+                            newWorkoutType = "Other"
+                        }
                         
                         // passes workouts list
                         
