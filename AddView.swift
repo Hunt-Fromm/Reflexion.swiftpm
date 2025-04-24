@@ -43,6 +43,8 @@ struct AddView: View {
     @StateObject var stopWatch = StopWatch()
     @State var stopWatchRunning = false
     
+    let appFont:String = "DINAlternate-Bold"
+    
     var body: some View {
             
         NavigationStack {
@@ -52,6 +54,7 @@ struct AddView: View {
                 
                 // Displays today's date
                 Text("New Workout")
+                    .font(.custom(appFont, size: 40))
                     .bold()
                     .font(.title)
                     .padding(.bottom)
@@ -60,7 +63,7 @@ struct AddView: View {
                     ForEach(0..<2, id: \.self) { index in
                         Text(index == 0 ? "Completed" : "Current")
                             .tag(index)
-                            .font(.custom("Arial", size: 40))
+                            .font(.custom(appFont, size: 20))
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
@@ -75,10 +78,12 @@ struct AddView: View {
                     .padding(.horizontal)
                     .padding(.top)
                     .bold()
+                    .font(.custom(appFont, size: 20))
                 
                 TextField("Type of Workout", text: $newWorkoutType)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
+                    .font(.custom(appFont, size: 20))
                 
                 // MARK: Date
                 Text("Date")
@@ -86,6 +91,7 @@ struct AddView: View {
                     .padding(.horizontal)
                     .padding(.top)
                     .bold()
+                    .font(.custom(appFont, size: 20))
                 
                 HStack {
                     // Day
@@ -93,6 +99,7 @@ struct AddView: View {
                         ForEach(1...31, id: \.self) {
                             index in
                             Text(String(index))
+                                .font(.custom(appFont, size: 20))
                         }
                         
                     }
@@ -104,6 +111,7 @@ struct AddView: View {
                         ForEach(1...12, id: \.self) {
                             index in
                             Text(months[index-1])
+                                .font(.custom(appFont, size: 20))
                         }
                         
                     }
@@ -115,6 +123,7 @@ struct AddView: View {
                         ForEach(2025...3000, id: \.self) {
                             index in
                             Text(String(index))
+                                .font(.custom(appFont, size: 20))
                         }
                         
                     }
@@ -123,15 +132,15 @@ struct AddView: View {
                 }
                 
                 // MARK: Duration
+                Text("Duration")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                    .padding(.top)
+                    .bold()
+                    .font(.custom(appFont, size: 20))
                 
                 // If workout completed, show selector for duration
                 if pickerVal == 0 {
-                    
-                    Text("Duration")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
-                        .padding(.top)
-                        .bold()
                     
                     HStack {
                         // Hours
@@ -139,6 +148,7 @@ struct AddView: View {
                             ForEach(0...23, id: \.self) {
                                 index in
                                 Text(String(index) + " hr")
+                                    .font(.custom(appFont, size: 20))
                             }
                             
                         }
@@ -150,6 +160,7 @@ struct AddView: View {
                             ForEach(1...59, id: \.self) {
                                 index in
                                 Text(String(index) + " min")
+                                    .font(.custom(appFont, size: 20))
                             }
                             
                         }
@@ -178,7 +189,7 @@ struct AddView: View {
                                 .foregroundStyle(stopWatchRunning ? .red : .green)
                                 .overlay {
                                     Text(stopWatchRunning ? "Stop" : "Start")
-                                        .font(.custom("Arial Bold", size: 30))
+                                        .font(.custom(appFont, size: 20))
                                         .foregroundStyle(.white)
                                 }
                         }
@@ -186,11 +197,12 @@ struct AddView: View {
                         Spacer()
                             .frame(width: 120)
                         
-                        Text("\(stopWatch.hours)")
-                        Text(":")
-                        Text("\(stopWatch.minutes)")
-                        Text(":")
-                        Text("\(String(format: "%.1f", stopWatch.getSeconds()))")
+                        Text("\(stopWatch.hours) : \(stopWatch.minutes) : \(String(format: "%.1f", stopWatch.getSeconds()))")
+//                        Text(":")
+//                        Text("\(stopWatch.minutes)")
+//                        Text(":")
+//                        Text("\(String(format: "%.1f", stopWatch.getSeconds()))")
+                            .font(.custom(appFont, size: 20))
                         
                         
                         
@@ -204,6 +216,7 @@ struct AddView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     .bold()
+                    .font(.custom(appFont, size: 20))
                 
                 HStack {
                     let veryHappy = 0x1F601
@@ -295,6 +308,7 @@ struct AddView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     .bold()
+                    .font(.custom(appFont, size: 20))
                 
                 HStack {
                     let turtle = 0x1F422
@@ -384,11 +398,13 @@ struct AddView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     .padding(.top)
+                    .font(.custom(appFont, size: 20))
                 
                 TextField("Enter text", text: $userReflection)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                     .frame(width: 400)
+                    .font(.custom(appFont, size: 20))
                 
                 .navigationBarHidden(true)
                 
