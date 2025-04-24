@@ -55,6 +55,8 @@ struct AddView: View {
     @StateObject var stopWatch = StopWatch()
     @State var stopWatchRunning = false
     
+    let appFont:String = "DINAlternate-Bold"
+    
     var body: some View {
             
         NavigationStack {

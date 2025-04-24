@@ -14,6 +14,9 @@ struct ContentView: View {
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
+    let appFont:String = "DINAlternate-Bold"
+    
+    
     var body: some View {
         
         // Navigation Stack to which toolbar is applied
@@ -21,7 +24,7 @@ struct ContentView: View {
             
             VStack {
                 Text("Workout Log")
-                    .font(.custom("Arial Bold", size: 40))
+                    .font(.custom(appFont, size: 40))
                     .onAppear {
                         sortWorkoutsByMonth()
                     }
@@ -44,6 +47,7 @@ struct ContentView: View {
                                 .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
                                 .fontWeight(.bold)
                                 .underline()
+                                .font(.custom(appFont, size: 20))
                             
                             
                             HStack {
@@ -70,6 +74,7 @@ struct ContentView: View {
                                                     .frame(maxWidth: .infinity, alignment: .leading)
                                                     .padding(4)
                                                     .offset(x: 5)
+                                                    .font(.custom(appFont, size: 18))
                                                     
                                             }
                                         })
