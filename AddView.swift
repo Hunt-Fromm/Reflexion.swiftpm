@@ -57,6 +57,8 @@ struct AddView: View {
     
     let appFont:String = "DINAlternate-Bold"
     
+    @State var saveOrDelete:String = "save"
+    
     var body: some View {
             
         NavigationStack {
@@ -67,16 +69,16 @@ struct AddView: View {
                     
                     // Displays today's date
                     Text("New Workout")
+                        .font(.custom(appFont, size: 40))
                         .bold()
                         .font(.title)
                         .padding(.bottom)
-                        .font(.custom(appFont, size: 40))
                     
                     Picker("", selection: $pickerVal) {
                         ForEach(0..<2, id: \.self) { index in
                             Text(index == 0 ? "Completed" : "Current")
-                                .tag(index)
                                 .font(.custom(appFont, size: 20))
+                                .tag(index)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
@@ -286,11 +288,7 @@ struct AddView: View {
                             
                             
                             
-                            Text("\(stopWatch.hours)")
-                            Text(":")
-                            Text("\(stopWatch.minutes)")
-                            Text(":")
-                            Text("\(String(format: "%.1f", stopWatch.getSeconds()))")
+                            Text("\(stopWatch.hours) : \(stopWatch.minutes) : \(String(format: "%.1f", stopWatch.getSeconds()))")
                                 .font(.custom(appFont, size: 20))
                             
                             
@@ -503,48 +501,67 @@ struct AddView: View {
                 
             } // End ScrollView
             .tint(.white)
-            
-            
-            // Same toolbar for all views
+                        
+            // MARK: Toolbar
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     
-                    
-//                    NavigationLink {
-//                        ContentView()
-//                    } label: {
-//                        Image(systemName: "list.dash")
-//                            .font(.system(size: 25))
-//                            .padding(.leading)
-//                    }
-                    
                     Spacer()
                     
-                    Button {
+                    ZStack {
                         
-                        // Changes newWorkoutType to "Other" if it was originally empty
-                        if newWorkoutType == "" {
-                            newWorkoutType = "Other"
-                        }
+                        Circle()
+                            .fill(saveOrDelete == "save" ? .white : .black)
+                            .frame(width: 40, height: 38)
                         
-                        // passes workouts list
+                        Button { // Cancel button
+                            saveOrDelete = saveOrDelete=="save" ? "delete" : "save" // I LOVE TERNARY OPERATORS! <3
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundStyle(saveOrDelete == "save" ? .red : .white)
+                                
+                        } // end of Cancel button
+                    } // end of ZStack
+                    .offset(x: 25 - 32, y: 10) // only temporary please fix
+                    
+                    ZStack {
+                        Circle()
+                            .fill(saveOrDelete == "save" ? .black : .white)
+                            .frame(width: 80, height: 78)
                         
-                        let newWorkout = Workout(type: newWorkoutType, dayOfTheWeek: "ignore", date: newWorkoutDay, month: newWorkoutMonth, year: newWorkoutYear, hours: newWorkoutHours, minutes: newWorkoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
-                        
-                        if (!isEmpty(workout: newWorkout)) {
-                            workouts.append(newWorkout)
-                        }
-                        
-                        
-                        // Dismiss view
-                        dismiss()
-                        
-                    } label: {
-                        
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 60, weight: .bold))
-                            .offset(x: 0, y: -10)
-                    }
+                        Button { // Save/Delete button
+                            
+                            // Only saves if user clicks checkmark
+                            if saveOrDelete == "save" {
+                                // Changes newWorkoutType to "Other" if it was originally empty
+                                if newWorkoutType == "" {
+                                    newWorkoutType = "Other"
+                                }
+                                
+                                // passes workouts list
+                                
+                                let newWorkout = Workout(type: newWorkoutType, dayOfTheWeek: "ignore", date: newWorkoutDay, month: newWorkoutMonth, year: newWorkoutYear, hours: newWorkoutHours, minutes: newWorkoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
+                                
+                                if (!isEmpty(workout: newWorkout)) {
+                                    workouts.append(newWorkout)
+                                }
+                            }
+                            
+                            
+                            // Dismiss view
+                            dismiss()
+                            
+                        } label: {
+                            
+                            Image(systemName: saveOrDelete == "save" ?  "checkmark.circle.fill" : "trash.circle.fill")
+                                .foregroundStyle(saveOrDelete == "save" ? .white : .red)
+                                .backgroundStyle(.green)
+                                .font(.system(size: 60, weight: .bold))
+                                
+                        } // end of Save/Delete button
+                    } // end of ZStack
+                    .offset(x: 0 - 32, y: -10) // only temporary please fix
                     
                     Spacer()
                     
