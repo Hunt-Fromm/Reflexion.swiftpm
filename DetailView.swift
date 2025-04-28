@@ -27,70 +27,68 @@ struct DetailView: View {
                     .font(.custom(appFont, size: 20))
                 Text("\(workout.dateCode)")
                 
+                Text("Duration: \(workout.hours):\(workout.minutes) hr")
+                    .font(.custom(appFont, size: 20))
+                
+                if workout.mood != 0 {
+                    Text("Mood: \(workout.mood)")
+                        .font(.custom(appFont, size: 20))
+                }
+                
+                if workout.energy != 0 {
+                    Text("Energy: \(workout.energy)")
+                        .font(.custom(appFont, size: 20))
+                }
+                
+                if workout.reflection != "" {
+                    Text("Reflection: \(workout.reflection)")
+                        .font(.custom(appFont, size: 20))
+                    let reflLength:Double = Double(workout.reflection.count)*10
+                    let reflHeight:Double = Double((workout.reflection.count)/50)*20 + 25
+                    
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 500, height: reflHeight)
+                            .foregroundStyle(.red)
+                        Rectangle()
+                            .frame(width: reflLength, height: reflHeight)
+                            .foregroundStyle(.cyan)
+                        Text(workout.reflection)
+                            .backgroundStyle(.black)
+                        Text("\(reflHeight)")
+                            .backgroundStyle(.black)
+                    }
+                    
+                }
+                
             } // End VStack
             
-//            // Same toolbar for all views
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "chevron.left")
+                            .foregroundStyle(.blue)
+                            .font(.system(size: 20))
+                            .bold()
                         Image(systemName: "list.dash")
+                            .foregroundStyle(.blue)
                             .font(.system(size: 25))
-                            //.padding(.leading)
+                            .bold()
                     }
                     
                 }
                 
                 ToolbarItemGroup(placement: .bottomBar) {
                     
-                    // Content View
-//                    NavigationLink {
-//                        ContentView()
-//                        //dismiss()
-//                    } label: {
-//                        Image(systemName: "list.dash")
-//                            .font(.system(size: 25))
-//                            .padding(.leading)
-//                    }
-//                    
-//                    Button {
-//                        dismiss()
-//                    } label: {
-//                        Image(systemName: "list.dash")
-//                            .font(.system(size: 25))
-//                            .padding(.leading)
-//                    }
-//                    .offset(x: -144, y: 0)
                     
-//                    Spacer()
-//                    
-//                    // Add View
-//                    NavigationLink {
-//                        AddView(workouts: $workouts)
-//                    } label: {
-//                        Image(systemName: "plus.circle.fill")
-//                            .font(.system(size: 60, weight: .bold))
-//                            .offset(x: 0, y: -10)
-//                    }
-//                    
-//                    Spacer()
-//                    
-//                    // Stats View
-//                    NavigationLink {
-//                        StatsView(workouts: $workouts)
-//                    } label: {
-//                        Image(systemName: "chart.xyaxis.line")
-//                            .font(.system(size: 25))
-//                            .padding(.trailing)
-//                    }
 
                 }
             } // End toolbar
             .navigationBarBackButtonHidden(true)
             
-        }
+        } // End of NavStack
         
     }
 }

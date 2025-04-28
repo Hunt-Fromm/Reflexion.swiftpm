@@ -509,59 +509,61 @@ struct AddView: View {
                     Spacer()
                     
                     ZStack {
-                        
-                        Circle()
-                            .fill(saveOrDelete == "save" ? .white : .black)
-                            .frame(width: 40, height: 38)
-                        
-                        Button { // Cancel button
-                            saveOrDelete = saveOrDelete=="save" ? "delete" : "save" // I LOVE TERNARY OPERATORS! <3
-                        } label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 30, weight: .bold))
-                                .foregroundStyle(saveOrDelete == "save" ? .red : .white)
-                                
-                        } // end of Cancel button
-                    } // end of ZStack
-                    .offset(x: 25 - 32, y: 10) // only temporary please fix
-                    
-                    ZStack {
-                        Circle()
-                            .fill(saveOrDelete == "save" ? .black : .white)
-                            .frame(width: 80, height: 78)
-                        
-                        Button { // Save/Delete button
+                        ZStack {
+                            Circle()
+                                .fill(saveOrDelete == "save" ? .black : .white)
+                                .frame(width: 80, height: 78)
                             
-                            // Only saves if user clicks checkmark
-                            if saveOrDelete == "save" {
-                                // Changes newWorkoutType to "Other" if it was originally empty
-                                if newWorkoutType == "" {
-                                    newWorkoutType = "Other"
+                            Button { // Save/Delete button
+                                
+                                // Only saves if user clicks checkmark
+                                if saveOrDelete == "save" {
+                                    // Changes newWorkoutType to "Other" if it was originally empty
+                                    if newWorkoutType == "" {
+                                        newWorkoutType = "Other"
+                                    }
+                                    
+                                    // passes workouts list
+                                    
+                                    let newWorkout = Workout(type: newWorkoutType, dayOfTheWeek: "ignore", date: newWorkoutDay, month: newWorkoutMonth, year: newWorkoutYear, hours: newWorkoutHours, minutes: newWorkoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
+                                    
+                                    if (!isEmpty(workout: newWorkout)) {
+                                        workouts.append(newWorkout)
+                                    }
                                 }
                                 
-                                // passes workouts list
                                 
-                                let newWorkout = Workout(type: newWorkoutType, dayOfTheWeek: "ignore", date: newWorkoutDay, month: newWorkoutMonth, year: newWorkoutYear, hours: newWorkoutHours, minutes: newWorkoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
+                                // Dismiss view
+                                dismiss()
                                 
-                                if (!isEmpty(workout: newWorkout)) {
-                                    workouts.append(newWorkout)
-                                }
-                            }
-                            
-                            
-                            // Dismiss view
-                            dismiss()
-                            
-                        } label: {
-                            
-                            Image(systemName: saveOrDelete == "save" ?  "checkmark.circle.fill" : "trash.circle.fill")
-                                .foregroundStyle(saveOrDelete == "save" ? .white : .red)
-                                .backgroundStyle(.green)
-                                .font(.system(size: 60, weight: .bold))
+                            } label: {
                                 
-                        } // end of Save/Delete button
+                                Image(systemName: saveOrDelete == "save" ?  "checkmark.circle.fill" : "trash.circle.fill")
+                                    .foregroundStyle(saveOrDelete == "save" ? .white : .red)
+                                    .backgroundStyle(.green)
+                                    .font(.system(size: 60, weight: .bold))
+                                
+                            } // end of Save/Delete button
+                        } // end of ZStack
+                        .offset(x: 0, y: -10) //only temporary please fix
+                        
+                        ZStack {
+                            
+                            Circle()
+                                .fill(saveOrDelete == "save" ? .white : .black)
+                                .frame(width: 40, height: 38)
+                            
+                            Button { // Cancel button
+                                saveOrDelete = saveOrDelete=="save" ? "delete" : "save" // I LOVE TERNARY OPERATORS! <3
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 30, weight: .bold))
+                                    .foregroundStyle(saveOrDelete == "save" ? .red : .white)
+                                
+                            } // end of Cancel button
+                        } // end of ZStack
+                        .offset(x: -45, y: 10) // only temporary please fix
                     } // end of ZStack
-                    .offset(x: 0 - 32, y: -10) // only temporary please fix
                     
                     Spacer()
                     
