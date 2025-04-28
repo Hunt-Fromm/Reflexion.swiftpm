@@ -25,6 +25,7 @@ struct DetailView: View {
                 
                 Text("\(workout.descr)")
                     .font(.custom(appFont, size: 20))
+                Text("\(workout.dateCode)")
                 
             } // End VStack
             
