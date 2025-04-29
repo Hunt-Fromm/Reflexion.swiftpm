@@ -492,7 +492,7 @@ struct AddView: View {
                     TextField("Enter text", text: $userReflection)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
-                        .frame(width: 400)
+                        .frame(width: 420, height: 120)
                         .font(.custom(appFont, size: 20))
                     
                         .navigationBarHidden(true)

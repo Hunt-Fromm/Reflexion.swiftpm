@@ -28,6 +28,7 @@ struct DetailView: View {
                     .onAppear {
                         createTextBox(reflection: workout.reflection)
                     }
+                Text("\(workout.dateCode)")
                 
                 Text("Duration: \(workout.hours):\(workout.minutes) hr")
                     .font(.custom(appFont, size: 20))
