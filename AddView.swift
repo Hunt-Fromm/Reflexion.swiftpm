@@ -545,7 +545,7 @@ struct AddView: View {
                                 
                             } // end of Save/Delete button
                         } // end of ZStack
-                        .offset(x: 0, y: -10) //only temporary please fix
+                        .position(x: 55, y: 10)
                         
                         ZStack {
                             
@@ -562,7 +562,8 @@ struct AddView: View {
                                 
                             } // end of Cancel button
                         } // end of ZStack
-                        .offset(x: -45, y: 10) // only temporary please fix
+                        .position(x: 10, y: 30)
+                        
                     } // end of ZStack
                     
                     Spacer()
@@ -575,8 +576,11 @@ struct AddView: View {
 //                            .padding(.trailing)
 //                    }
 
-                }
+                } // End of toolbar group
+                
             } // End toolbar
+            
+            //.frame(width: 0, height: 1000)
             
         } // end of nav stack
         .foregroundStyle(.white)

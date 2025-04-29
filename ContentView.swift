@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
     // Workouts list currently filled with sample workouts
     @State var workouts: [Workout] = [
-        Workout(type: "Run", dayOfTheWeek: "Tuesday", date: 15, month: 4, year: 2025, hours: 0, minutes: 30, mood: 4, energy: 2, reflection: ""),
+        Workout(type: "Run", dayOfTheWeek: "Tuesday", date: 15, month: 4, year: 2025, hours: 0, minutes: 30, mood: 4, energy: 2, reflection: "test test test test test test test test test test test test test test test test test test"),
         Workout(type: "Yoga", date: 17, month: 4, year: 2025),
         Workout(type: "Bike", date: 16, month: 4, year: 2025),
         Workout(type: "Hike", date: 16, month: 5, year: 2025)

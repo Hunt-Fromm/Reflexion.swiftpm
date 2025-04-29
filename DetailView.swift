@@ -25,6 +25,9 @@ struct DetailView: View {
                 
                 Text("\(workout.descr)")
                     .font(.custom(appFont, size: 20))
+                    .onAppear {
+                        createTextBox(reflection: workout.reflection)
+                    }
                 Text("\(workout.dateCode)")
                 
                 Text("Duration: \(workout.hours):\(workout.minutes) hr")
@@ -44,22 +47,25 @@ struct DetailView: View {
                     Text("Reflection: \(workout.reflection)")
                         .font(.custom(appFont, size: 20))
                     let reflLength:Double = Double(workout.reflection.count)*10
-                    let reflHeight:Double = Double((workout.reflection.count)/50)*20 + 25
+                    let reflHeight:Double = Double((workout.reflection.count)/35)*20 + 25
                     
                     ZStack {
                         Rectangle()
-                            .frame(width: 500, height: reflHeight)
+                            .frame(width: 350, height: reflHeight)
                             .foregroundStyle(.red)
                         Rectangle()
                             .frame(width: reflLength, height: reflHeight)
                             .foregroundStyle(.cyan)
                         Text(workout.reflection)
                             .backgroundStyle(.black)
-                        Text("\(reflHeight)")
-                            .backgroundStyle(.black)
+                        
+                        
                     }
                     
-                }
+                    Text("\(reflHeight)")
+                        .backgroundStyle(.black)
+                    
+                } // end of if statement
                 
             } // End VStack
             
@@ -91,6 +97,16 @@ struct DetailView: View {
         } // End of NavStack
         
     }
+}
+
+func createTextBox(reflection: String) {
+    
+    print(reflection.count/35 + 1)
+    
+    for i in 0...(reflection.count/35 + 1) {
+        print(i)
+    }
+    
 }
 
 //#Preview {
