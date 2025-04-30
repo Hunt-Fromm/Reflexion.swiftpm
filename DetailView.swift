@@ -23,11 +23,11 @@ struct DetailView: View {
             
             VStack {
                 
+                var list:[String] = []
+                
                 Text("\(workout.descr)")
                     .font(.custom(appFont, size: 20))
-                    .onAppear {
-                        createTextBox(reflection: workout.reflection)
-                    }
+                
                 Text("\(workout.dateCode)")
                 
                 Text("Duration: \(workout.hours):\(workout.minutes) hr")
@@ -46,6 +46,11 @@ struct DetailView: View {
                 if workout.reflection != "" {
                     Text("Reflection: \(workout.reflection)")
                         .font(.custom(appFont, size: 20))
+                        .onAppear {
+                            list = createTextBox(reflection: workout.reflection)
+                            print("hello")
+                        }
+                    
                     let reflLength:Double = Double(workout.reflection.count)*10
                     let reflHeight:Double = Double((workout.reflection.count)/35)*20 + 25
                     
@@ -56,14 +61,22 @@ struct DetailView: View {
                         Rectangle()
                             .frame(width: reflLength, height: reflHeight)
                             .foregroundStyle(.cyan)
-                        Text(workout.reflection)
-                            .backgroundStyle(.black)
-                        
+//                        Text(workout.reflection)
+//                            .backgroundStyle(.black)
+//                        
                         
                     }
                     
                     Text("\(reflHeight)")
                         .backgroundStyle(.black)
+                    
+                    List(list.indices, id: \.self) { // MARK: IM OVER HERE  PLS FINISH!
+                        index in
+                        Text("\(index) IM OVER HERE")
+                            .backgroundStyle(.white)
+                        Text(list[index])
+                            .backgroundStyle(.white)
+                    }
                     
                 } // end of if statement
                 
@@ -95,18 +108,26 @@ struct DetailView: View {
             .navigationBarBackButtonHidden(true)
             
         } // End of NavStack
-        
-    }
+    } // End of body
 }
 
-func createTextBox(reflection: String) {
+func createTextBox(reflection: String) -> [String] {
+        
+    var list:[String] = []
     
-    print(reflection.count/35 + 1)
+    let refl = reflection
     
-    for i in 0...(reflection.count/35 + 1) {
+    for i in 1...(reflection.count/35) {
         print(i)
+        let start = refl.index(refl.startIndex, offsetBy: 0)
+        let end = (refl.count > 100) ? refl.index(refl.startIndex, offsetBy: 100) : refl.index(refl.startIndex, offsetBy: refl.count)
+        let part = String(reflection[start..<end])
+        print(part)
+        print("new line")
+        list.append(part)
     }
     
+    return list
 }
 
 //#Preview {
