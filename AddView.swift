@@ -27,6 +27,9 @@ struct AddView: View {
     //@Binding var list:[Assignment]
     @Environment(\.dismiss) var dismiss
     
+    // Allows app to notify whatever view it is returning to that AddView has been dismissed
+    var didDismiss: (() -> Void)
+    
     @State var newWorkoutType = ""
     @State var newWorkoutHours = 0
     @State var newWorkoutMinutes = 30
@@ -532,8 +535,12 @@ struct AddView: View {
                                     }
                                 }
                                 
+                                // Re-sorts workouts list
+                                sortWorkouts(&workouts)
+                                
                                 
                                 // Dismiss view
+                                didDismiss()
                                 dismiss()
                                 
                             } label: {
