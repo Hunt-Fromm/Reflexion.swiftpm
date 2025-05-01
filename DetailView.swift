@@ -16,6 +16,7 @@ struct DetailView: View {
     @Environment(\.dismiss) var dismiss
     
     let appFont:String = "DINAlternate-Bold"
+    @State var list:[String] = []
     
     var body: some View {
         
@@ -23,13 +24,9 @@ struct DetailView: View {
             
             VStack {
                 
-                var list:[String] = []
-                
                 Text("\(workout.descr)")
                     .font(.custom(appFont, size: 20))
-                
-                Text("\(workout.dateCode)")
-                
+                                
                 Text("Duration: \(workout.hours):\(workout.minutes) hr")
                     .font(.custom(appFont, size: 20))
                 
@@ -44,44 +41,24 @@ struct DetailView: View {
                 }
                 
                 if workout.reflection != "" {
-                    Text("Reflection: \(workout.reflection)")
+                    Text("Reflection:")
                         .font(.custom(appFont, size: 20))
-                        .onAppear {
-                            list = createTextBox(reflection: workout.reflection)
-                            print("hello")
-                        }
-                    
-                    let reflLength:Double = Double(workout.reflection.count)*10
-                    let reflHeight:Double = Double((workout.reflection.count)/35)*20 + 25
-                    
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 350, height: reflHeight)
-                            .foregroundStyle(.red)
-                        Rectangle()
-                            .frame(width: reflLength, height: reflHeight)
-                            .foregroundStyle(.cyan)
-//                        Text(workout.reflection)
-//                            .backgroundStyle(.black)
-//                        
-                        
-                    }
-                    
-                    Text("\(reflHeight)")
-                        .backgroundStyle(.black)
-                    
-                    List(list.indices, id: \.self) { // MARK: IM OVER HERE  PLS FINISH!
-                        index in
-                        Text("\(index) IM OVER HERE")
-                            .backgroundStyle(.white)
-                        Text(list[index])
-                            .backgroundStyle(.white)
-                    }
+                        .frame(alignment: .leadingFirstTextBaseline)
+                        //.padding(.horizontal)
+
+                    @State var reflection = "\(workout.reflection)" // need this bc TextEditor requires an @State var
+                                        
+                    // Multiline text input
+                    TextEditor(text: $reflection)
+                        .frame(height: 200)
+                        .border(Color.blue, width: 4)
+                        .padding(.horizontal)
+                        .font(.custom(appFont, size: 20))
                     
                 } // end of if statement
                 
             } // End VStack
-            
+
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button {
@@ -120,7 +97,7 @@ func createTextBox(reflection: String) -> [String] {
     for i in 1...(reflection.count/35) {
         print(i)
         let start = refl.index(refl.startIndex, offsetBy: 0)
-        let end = (refl.count > 100) ? refl.index(refl.startIndex, offsetBy: 100) : refl.index(refl.startIndex, offsetBy: refl.count)
+        let end = (refl.count > 50) ? refl.index(refl.startIndex, offsetBy: 50) : refl.index(refl.endIndex, offsetBy: 0)
         let part = String(reflection[start..<end])
         print(part)
         print("new line")
