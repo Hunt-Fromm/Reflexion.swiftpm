@@ -24,25 +24,123 @@ struct DetailView: View {
             
             VStack {
                 
+                // Title
                 Text("\(workout.descr)")
-                    .font(.custom(appFont, size: 20))
-                                
-                Text("Duration: \(workout.hours):\(workout.minutes) hr")
-                    .font(.custom(appFont, size: 20))
+                    .font(.custom(appFont, size: 35))
+                    .frame(alignment: .top)
                 
-                if workout.mood != 0 {
-                    Text("Mood: \(workout.mood)")
-                        .font(.custom(appFont, size: 20))
-                }
+                Spacer()
+                    .frame(height: 100)
+                      
+                // Duration
+                VStack {
+                    Text("Duration")
+                        .font(.custom(appFont, size: 25))
+                        .foregroundStyle(.blue)
+                    
+                    if workout.hours != 0 {
+                        Text("\(workout.hours):\(workout.minutes) hr")
+                            .font(.custom(appFont, size: 20))
+                    }
+                    else {
+                        Text("\(workout.minutes) min")
+                            .font(.custom(appFont, size: 20))
+                    }
+                } // end of VStack (duration)
                 
-                if workout.energy != 0 {
-                    Text("Energy: \(workout.energy)")
-                        .font(.custom(appFont, size: 20))
-                }
+                
+                HStack {
+                    VStack {
+                        // Mood
+                        
+                        let veryHappy = 0x1F601
+                        let happy = 0x1F600
+                        let neutral = 0x1F610
+                        let sad = 0x1F641
+                        let verySad = 0x1F614
+                        
+                        if workout.mood != 0 {
+                            
+                            Text("Mood")
+                                .font(.custom(appFont, size: 25))
+                                .foregroundStyle(.blue)
+                            
+                            if workout.mood == 1 {
+                                Text(String(UnicodeScalar(verySad)!))
+                                    .font(.custom(appFont, size: 50))
+                            }
+                            else if workout.mood == 2 {
+                                Text(String(UnicodeScalar(sad)!))
+                                    .font(.custom(appFont, size: 50))
+                            }
+                            else if workout.mood == 3 {
+                                Text(String(UnicodeScalar(neutral)!))
+                                    .font(.custom(appFont, size: 50))
+                            }
+                            else if workout.mood == 4 {
+                                Text(String(UnicodeScalar(happy)!))
+                                    .font(.custom(appFont, size: 50))
+                            }
+                            else {
+                                Text(String(UnicodeScalar(veryHappy)!))
+                                    .font(.custom(appFont, size: 50))
+                            }
+                            
+                        }
+                    } // end of VStack (mood)
+                    
+                    Spacer()
+                        .frame(width: 150)
+                    
+                    VStack {
+                        // Energy
+                        
+                        let turtle = 0x1F422
+                        let rabbit = 0x1F407
+                        let personWalking = 0x1F6B6
+                        
+                        if workout.energy != 0 {
+                            
+                            Text("Energy")
+                                .font(.custom(appFont, size: 25))
+                                .foregroundStyle(.blue)
+                            
+                            if workout.energy == 1 {
+                                Text(String(UnicodeScalar(turtle)!))
+                                    .font(.custom(appFont, size: 50))
+                                    .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                            }
+                            else if workout.energy == 2 {
+                                Text(String(UnicodeScalar(turtle)!))
+                                    .font(.custom(appFont, size: 40))
+                                    .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                                    .padding(1)
+                            }
+                            else if workout.energy == 3 {
+                                Text(String(UnicodeScalar(personWalking)!))
+                                    .font(.custom(appFont, size: 50))
+                                    .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                            }
+                            else if workout.energy == 4 {
+                                Text(String(UnicodeScalar(rabbit)!))
+                                    .font(.custom(appFont, size: 40))
+                                    .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                                    .padding(1)
+                            }
+                            else {
+                                Text(String(UnicodeScalar(rabbit)!))
+                                    .font(.custom(appFont, size: 50))
+                                    .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
+                            }
+                            
+                        }
+                    } // end of VStack (energy)
+                } // end of HStack (emoji)
                 
                 if workout.reflection != "" {
                     Text("Reflection:")
-                        .font(.custom(appFont, size: 20))
+                        .font(.custom(appFont, size: 25))
+                        .foregroundStyle(.blue)
                         .frame(alignment: .leadingFirstTextBaseline)
                         //.padding(.horizontal)
 
@@ -108,5 +206,5 @@ func createTextBox(reflection: String) -> [String] {
 }
 
 //#Preview {
-//    DetailView(workout: Workout)
+//    DetailView(workouts: workout[0])
 //}
