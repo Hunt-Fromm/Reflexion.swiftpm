@@ -165,7 +165,7 @@ struct ContentView: View {
                     
                     // Add View
                     NavigationLink {
-                        AddView(workouts: $workouts)
+                        AddView(workouts: $workouts, didDismiss: {sortWorkoutsByMonth()})
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 60, weight: .bold))
@@ -197,42 +197,14 @@ struct ContentView: View {
         
     }
     
-    /// Sorts Workout Objects in 'workouts' in chronological order
-    func sortWorkouts() {
-        var temp: Workout
-        
-        
-        for i in 0..<workouts.count {
-            
-            var maxIndex = i
-            
-            for j in i..<workouts.count {
-                
-                if workouts[j].dateCode > workouts[maxIndex].dateCode {
-                    maxIndex = j
-                }
-                
-            }
-            
-            if maxIndex != i {
-                temp = workouts[maxIndex]
-                workouts[maxIndex] = workouts[i]
-                workouts[i] = temp
-            }
-            
-            
-        }
-        
-        
-        
-    }
+    
     
     
     func sortWorkoutsByMonth() {
         workoutsByMonth = []
         
         // Sorting workouts in reverse chronological order
-        sortWorkouts()
+        sortWorkouts(&workouts)
         // End sorting workouts in reverse chronological order
         
         
@@ -278,6 +250,36 @@ struct ContentView: View {
     
     
 }
+
+
+/// Sorts Workout Objects in 'workouts' in chronological order
+/// Because workouts is an inout variable, parameter needs to be called as '&workout'
+func sortWorkouts(_ workouts: inout [Workout]) {
+    var temp: Workout
+    
+    
+    for i in 0..<workouts.count {
+        
+        var maxIndex = i
+        
+        for j in i..<workouts.count {
+            
+            if workouts[j].dateCode > workouts[maxIndex].dateCode {
+                maxIndex = j
+            }
+            
+        }
+        
+        if maxIndex != i {
+            temp = workouts[maxIndex]
+            workouts[maxIndex] = workouts[i]
+            workouts[i] = temp
+        }
+        
+    }
+    
+}
+
 
 //#Preview {
 //    ContentView()
