@@ -269,6 +269,7 @@ struct AddView: View {
                                 
                                 if stopWatchRunning {
                                     stopWatch.stop()
+                                    setCurrentWorkoutDuration()
                                 } else {
                                     stopWatch.start()
                                 }
@@ -519,6 +520,13 @@ struct AddView: View {
                             
                             Button { // Save/Delete button
                                 
+                                // If current workout, set hours and minutes
+                                if pickerVal == 1 {
+                                    setCurrentWorkoutDuration()
+                                }
+
+                                stopWatch.reset()
+                                
                                 // Only saves if user clicks checkmark
                                 if saveOrDelete == "save" {
                                     // Changes newWorkoutType to "Other" if it was originally empty
@@ -537,7 +545,6 @@ struct AddView: View {
                                 
                                 // Re-sorts workouts list
                                 sortWorkouts(&workouts)
-                                
                                 
                                 // Dismiss view
                                 didDismiss()
@@ -594,6 +601,12 @@ struct AddView: View {
         .preferredColorScheme(.dark)
             
     }
+    
+    func setCurrentWorkoutDuration() {
+        newWorkoutHours = stopWatch.getHours()
+        newWorkoutMinutes = stopWatch.getMinutes() + (Int(stopWatch.getSeconds().rounded()) + 30) / 60
+    }
+    
 } // end of addView
 
 func isEmpty (workout: Workout) -> Bool {
