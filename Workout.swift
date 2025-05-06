@@ -7,8 +7,12 @@
 
 import SwiftUI
 
+let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+let abbrWeekdays = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
+
+
 struct Workout: Hashable {
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
     
     var type: String
     
@@ -64,7 +68,10 @@ struct Workout: Hashable {
         descr = "\(type) - \(month)/\(date)/\(String(year).prefix(1))\(String(year).suffix(3))"
     }
     
-    
+    // Returns a description of the workout, including its day of the week
+    func weekdayDescr() -> String {
+        return "\(type) - \(month)/\(date)/\(String(year).prefix(1))\(String(year).suffix(3)) (\(abbrWeekdays[determineDayOfWeek(dateCode)]))"
+    }
     
     
 }

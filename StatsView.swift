@@ -49,7 +49,8 @@ struct StatsView: View {
                 }
                 
                 
-            }
+                
+            } // End VStack
             
             // Same toolbar for all views
             .toolbar {

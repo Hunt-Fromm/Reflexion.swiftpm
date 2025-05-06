@@ -14,8 +14,8 @@ let yearToday = calendar.component(.year, from: dateObject) // 2025
 let monthToday = calendar.component(.month, from: dateObject) // 0 thru 11 for Jan thru Dec
 let dateToday = calendar.component(.day, from: dateObject)
 let weekDay = calendar.component(.weekday, from: dateObject)
-let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-let dayOfWeek = days[weekDay-1]
+let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+let dayOfWeek = days[weekDay]
 
 // IS THERE ALSO A WAY TO FIND DAY OF THE WEEK? -> YES!
 

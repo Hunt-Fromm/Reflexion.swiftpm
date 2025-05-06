@@ -25,7 +25,7 @@ struct DetailView: View {
             VStack {
                 
                 // Title
-                Text("\(workout.descr)")
+                Text("\(workout.weekdayDescr())")
                     .font(.custom(appFont, size: 35))
                     .frame(alignment: .top)
                 

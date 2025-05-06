@@ -281,6 +281,17 @@ func sortWorkouts(_ workouts: inout [Workout]) {
 }
 
 
+func determineDayOfWeek(year: Int, month: Int, date: Int) -> Int {
+    let monthCodes: [Int] = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5]
+    
+    
+    return ( (date + monthCodes[month - 1] + (year - 1) / 100 + (year / 100) / 4) ) % 7
+}
+
+func determineDayOfWeek(_ datecode: Int) -> Int {
+    return determineDayOfWeek(year: datecode / 10000, month: datecode % 10000 / 100, date: datecode % 100)
+}
+
 //#Preview {
 //    ContentView()
 //}
