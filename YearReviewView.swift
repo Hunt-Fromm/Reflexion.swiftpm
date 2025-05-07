@@ -37,8 +37,8 @@ struct YearReviewView: View {
         Color.white,
         Color(red: 0.7, green: 0.7, blue: 1),
         Color(red: 0.5, green: 1, blue: 0.5),
-        Color(red: 0.7, green: 0.7, blue: 0.2),
-        Color(red: 1, green: 0, blue: 0)
+        Color(red: 1, green: 1, blue: 0.5),
+        Color(red: 1, green: 0.5, blue: 0.5)
     ]
     
     @State var showLog = false
@@ -120,6 +120,10 @@ struct YearReviewView: View {
                  
                 
             } // End HStack for Weeks of Workouts
+            
+            Spacer()
+                .frame(width: 40, height: 0)
+            
         } // End Horizontal ScrollView
         .scrollIndicators(.hidden)
         

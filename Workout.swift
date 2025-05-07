@@ -60,8 +60,8 @@ struct Workout: Hashable {
         self.year = year
         self.hours = 0
         self.minutes = 30
-        self.mood = 0
-        self.energy = 0
+        self.mood = 3
+        self.energy = 3
         self.reflection = ""
         
         dateCode = year * 10000 + month * 100 + date

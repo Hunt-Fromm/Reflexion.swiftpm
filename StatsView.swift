@@ -43,12 +43,137 @@ struct StatsView: View {
                 // Only runs if workoutColors has 7*52 indecies, then calls YearReviewView
                 if workoutColors.count == 364 {
 
-                    YearReviewView(startingDatecode: yearStartCode, workoutColors: workoutColors, yearWorkouts: yearWorkouts, yearDatecodes: yearDatecodes, isLeapYear: isLeapYear(_:), makeValidDatecode: makeValidDatecode(_:))
+                    HStack {
+                        Spacer()
+                            .frame(width: 20)
+                        
+                        YearReviewView(startingDatecode: yearStartCode, workoutColors: workoutColors, yearWorkouts: yearWorkouts, yearDatecodes: yearDatecodes, isLeapYear: isLeapYear(_:), makeValidDatecode: makeValidDatecode(_:))
+                        
+                        Spacer()
+                            .frame(width: 20)
+                    }
                         
                     
                 }
                 
+                Spacer()
+                    .frame(height: 50)
+                    
                 
+                HStack {
+                    
+                    // Does it look better with or without this spacing?
+                    Spacer()
+                        .frame(width: 30)
+                    
+                    // Contains mood meter graph axes, gridlines, and points
+                    ZStack {
+                        
+                        // Axis Label for Energy
+                        HStack {
+                            
+                            Image(systemName: "arrow.left")
+                            
+                            Text("Energy")
+                            
+                            Image(systemName: "arrow.right")
+                            
+                        }
+                        .foregroundStyle(.white)
+                        .font(.custom("Arial Bold", size: 20))
+                        .rotationEffect(Angle(degrees: -90))
+                        .offset(x: -120)
+                        
+                        // Axis Label for Mood
+                        HStack {
+                            
+                            Image(systemName: "arrow.left")
+                            
+                            Text("Mood")
+                            
+                            Image(systemName: "arrow.right")
+                            
+                        }
+                        .foregroundStyle(.white)
+                        .font(.custom("Arial Bold", size: 20))
+                        .offset(y: 120)
+                        
+                        
+                        
+                        // Horizontal Center line of graph
+                        VStack {
+                            Spacer()
+                                .frame(height: 98)
+                            
+                            Rectangle()
+                                .frame(width: 200, height: 4)
+                            
+                            Spacer()
+                                .frame(height: 98)
+                        }
+                        .foregroundStyle(.white)
+                        
+                        
+                        // Vertical Center line of graph
+                        HStack {
+                            Spacer()
+                                .frame(width: 98)
+                            
+                            Rectangle()
+                                .frame(width: 4, height: 200)
+                            
+                            Spacer()
+                                .frame(width: 98)
+                        }
+                        .foregroundStyle(.white)
+                        
+                        
+                        // Plots Each Data point on the graph
+                        
+                        ForEach($workouts, id: \.self) { workout in
+                            let workout: Workout = workout.wrappedValue
+                            let xOffset = -120 + 40 * workout.mood
+                            let yOffset = -120 + 40 * workout.energy
+                            let randomY = Int.random(in: -10...10)
+                            let randomX = Int.random(in: -10...10)
+                            
+                            // Sets color
+                            let color: Color =
+                            yOffset > 0 ? (xOffset < 0 ? Color(red: 1, green: 0.5, blue: 0.5) : xOffset == 0 ? Color(red: 1, green: 0.75, blue: 0.5) : Color(red: 1, green: 1, blue: 0.5)) :
+                            yOffset == 0 ? (xOffset < 0 ? Color(red: 0.5, green: 1, blue: 1) : xOffset == 0 ? Color(red: 0.5, green: 0.5, blue: 0.5) : Color(red: 0.75, green: 1, blue: 0.5)) :
+                            (xOffset < 0 ? Color(red: 0.5, green: 0.5, blue: 1) : xOffset == 0 ? Color(red: 0.5, green: 1, blue: 1) : Color(red: 0.5, green: 0.5, blue: 1))
+                            
+                            
+                            
+                            
+                            HStack {
+                                Spacer()
+                                    .frame(width: CGFloat(xOffset + 96 + randomX))
+                                
+                                VStack {
+                                    Spacer()
+                                        .frame(height: CGFloat(96 - yOffset - randomY))
+                                    
+                                    Circle()
+                                        .frame(width: 8, height: 8)
+                                        .foregroundColor(color)
+                                    
+                                    Spacer()
+                                        .frame(height: CGFloat(96 + yOffset + randomY))
+                                }
+                                
+                                Spacer()
+                                    .frame(width: CGFloat(96 - xOffset - randomX))
+                            }
+                            
+                        }
+                        
+                        
+                    } // End ZStack
+                    .frame(width: 200, height: 200)
+                    
+                }
+                .background(.cyan)
                 
             } // End VStack
             

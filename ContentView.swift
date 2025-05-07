@@ -6,7 +6,8 @@ struct ContentView: View {
         Workout(type: "Run", dayOfTheWeek: "Tuesday", date: 15, month: 4, year: 2025, hours: 0, minutes: 30, mood: 4, energy: 2, reflection: "test test test test test test test test test test test test test test test test test test"),
         Workout(type: "Yoga", date: 17, month: 4, year: 2025),
         Workout(type: "Bike", date: 16, month: 4, year: 2025),
-        Workout(type: "Hike", date: 16, month: 5, year: 2025)
+        Workout(type: "Hike", date: 16, month: 5, year: 2025),
+        Workout(type: "Run", dayOfTheWeek: "Wednesday", date: 7, month: 5, year: 2025, hours: 1, minutes: 20, mood: 4, energy: 4, reflection: "")
     ]
     
     @State var workoutsByMonth: [[Workout]] = []
