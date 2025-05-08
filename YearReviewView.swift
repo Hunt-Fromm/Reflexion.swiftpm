@@ -47,85 +47,118 @@ struct YearReviewView: View {
     
     var body: some View {
         
-        ScrollView(.horizontal) {
-            HStack(spacing: 2.5) {
-                VStack {
-                    ForEach(0...6, id: \.self) { i in
-                        Text(days[(weekDay + 5 + i) % 7])
-                            .foregroundStyle(.white)
-                            .font(.custom("Arial", size: 15))
-                    }
-                    
-                }
-                .onAppear() {
-                    tempYearWorkouts = yearWorkouts
-                    tempYearDatecodes = yearDatecodes
-                    tempWorkoutColors = workoutColors
-                    activeDatecode = startingDatecode
-                    
-                    
-                    
-                    print(tempYearWorkouts.count)
-                    print(tempYearDatecodes.count)
-                    print(tempWorkoutColors.count)
-                    print(tempWorkoutColors[0])
-                    
-                    showLog = true
-                    
-                    for i in 0...363 {
-                        determineDailyColor(i / 7, i % 7)
-                    }
-                    
-                    activeDatecode = startingDatecode
+        HStack {
+            
+            VStack {
+                ForEach(0...6, id: \.self) { i in
+                    Text(days[(weekDay + 5 + i) % 7])
+                        .foregroundStyle(.white)
+                        .font(.custom("Arial", size: 15))
                 }
                 
+            }
+            .onAppear() {
+                tempYearWorkouts = yearWorkouts
+                tempYearDatecodes = yearDatecodes
+                tempWorkoutColors = workoutColors
+                activeDatecode = startingDatecode
                 
-                if showLog {
-                    Spacer()
-                        .frame(width: 10)
-                    
-                    
-                    ForEach(0...51, id: \.self) { i in
+                
+                
+                print(tempYearWorkouts.count)
+                print(tempYearDatecodes.count)
+                print(tempWorkoutColors.count)
+                print(tempWorkoutColors[0])
+                
+                showLog = true
+                
+                for i in 0...363 {
+                    determineDailyColor(i / 7, i % 7)
+                }
+                
+                activeDatecode = startingDatecode
+            }
+            
+            ZStack {
+                
+                // Holds squares representing the past year's calendar
+                ScrollView(.horizontal) {
+                    HStack(spacing: 2.5) {
+                        
+                        // Extra space that left side gradient will cover
+                        Spacer()
+                            .frame(width: 0, height: 0)
                         
                         
-                        
-                        VStack(spacing: 2.5) {
-                            ForEach(0...6, id: \.self) { j in
+                        if showLog {
+                            Spacer()
+                                .frame(width: 10)
+                            
+                            
+                            ForEach(0...51, id: \.self) { i in
                                 
                                 
                                 
-                                
-                                
-                                Rectangle()
-                                
-                                    .frame(width: 15, height: 15)
-                                
-//                                    .onAppear() {
-//                                        determineDailyColor(i, j)
-//                                    }
-//                                    .onDisappear() {
-//                                        determineDailyColor(i, j)
-//                                    }
-                                    .foregroundStyle(tempWorkoutColors[363 - (i * 7 + j)])
-                                
-                                
+                                VStack(spacing: 2.5) {
+                                    ForEach(0...6, id: \.self) { j in
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        Rectangle()
+                                        
+                                            .frame(width: 15, height: 15)
+                                        
+                                        //                                    .onAppear() {
+                                        //                                        determineDailyColor(i, j)
+                                        //                                    }
+                                        //                                    .onDisappear() {
+                                        //                                        determineDailyColor(i, j)
+                                        //                                    }
+                                            .foregroundStyle(tempWorkoutColors[363 - (i * 7 + j)])
+                                        
+                                        
+                                        
+                                    }
+                                }
                                 
                             }
+                            
                         }
                         
-                    }
+                        
+                        Spacer()
+                            .frame(width: 30, height: 0)
+                        
+                    } // End HStack for Weeks of Workouts
                     
+                    
+                    
+                } // End Horizontal ScrollView
+                .scrollIndicators(.hidden)
+                
+                
+                // Left and right sides' gradient covers for scroll view
+                HStack {
+                    
+                    
+                    Rectangle()
+                        .frame(width: 10, height: 125)
+                        .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.black.opacity(1), Color.black.opacity(0)]), startPoint: .leading, endPoint: .trailing))
+                    
+                    Spacer()
+                        .frame(maxWidth: .infinity)
+                    
+                    
+                    Rectangle()
+                        .frame(width: 40, height: 125)
+                        .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(1)]), startPoint: .leading, endPoint: .trailing))
                 }
                 
-                 
-                
-            } // End HStack for Weeks of Workouts
+            }
             
-            Spacer()
-                .frame(width: 40, height: 0)
-            
-        } // End Horizontal ScrollView
-        .scrollIndicators(.hidden)
+        }
         
     }
     

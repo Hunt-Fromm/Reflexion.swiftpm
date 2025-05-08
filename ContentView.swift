@@ -10,6 +10,8 @@ struct ContentView: View {
         Workout(type: "Run", dayOfTheWeek: "Wednesday", date: 7, month: 5, year: 2025, hours: 1, minutes: 20, mood: 4, energy: 4, reflection: "")
     ]
     
+    @AppStorage("workoutsData") var workoutsData: Data = Data()
+    
     @State var workoutsByMonth: [[Workout]] = []
     
     
@@ -200,7 +202,7 @@ struct ContentView: View {
     
     
     
-    
+    /// Sets the Value of workoutsByMonth to a 2D Array of workouts, each internal array representing a different month, in reverse chronological order
     func sortWorkoutsByMonth() {
         workoutsByMonth = []
         
@@ -249,6 +251,22 @@ struct ContentView: View {
         
     }
     
+    
+    /// Saves 'workouts' to AppStorage var workoutsData (Persistence!)
+    func saveWorkouts() {
+        // Executes JSONEncoder's function 'encode' to encode data in workouts into encodedData
+        if let encodedData = try? JSONEncoder().encode(workouts) {
+            workoutsData = encodedData
+        }
+    }
+    
+    /// Retreives 'workouts' from AppStorage var workoutsData (Persistence!)
+    func retreiveWorkouts() {
+        // Executes JSONEncoder's function 'decode' to decode data from workoutsData into decodedData
+        if let decodedData = try? JSONDecoder().decode([Workout].self, from: workoutsData) {
+            workouts = decodedData
+        }
+    }
     
 }
 

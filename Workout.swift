@@ -11,7 +11,8 @@ let months = ["January", "February", "March", "April", "May", "June", "July", "A
 let abbrWeekdays = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"]
 
 
-struct Workout: Hashable {
+// Needs to be Identifiable and Codable in order to use persistance with UserDefaults
+struct Workout: Hashable, Codable {
     
     
     var type: String

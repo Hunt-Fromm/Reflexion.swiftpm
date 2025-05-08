@@ -47,10 +47,12 @@ struct StatsView: View {
                         Spacer()
                             .frame(width: 20)
                         
-                        YearReviewView(startingDatecode: yearStartCode, workoutColors: workoutColors, yearWorkouts: yearWorkouts, yearDatecodes: yearDatecodes, isLeapYear: isLeapYear(_:), makeValidDatecode: makeValidDatecode(_:))
+                        ZStack {
+                            YearReviewView(startingDatecode: yearStartCode, workoutColors: workoutColors, yearWorkouts: yearWorkouts, yearDatecodes: yearDatecodes, isLeapYear: isLeapYear(_:), makeValidDatecode: makeValidDatecode(_:))
+                            
+                            
+                        }
                         
-                        Spacer()
-                            .frame(width: 20)
                     }
                         
                     
@@ -127,6 +129,29 @@ struct StatsView: View {
                         }
                         .foregroundStyle(.white)
                         
+                        // Plots Average Data point on graph
+                        HStack {
+                            let avgPoint: CGPoint = findAvgMoodEnergy()
+                            
+                            Spacer()
+                                .frame(width: CGFloat(92 + avgPoint.x))
+                            
+                            VStack {
+                                Spacer()
+                                    .frame(height: CGFloat(92 - avgPoint.y))
+                                
+                                Rectangle()
+                                    .frame(width: 16, height: 16)
+                                    .foregroundColor(.cyan)
+                                
+                                Spacer()
+                                    .frame(height: CGFloat(92 + avgPoint.y))
+                            }
+                            
+                            Spacer()
+                                .frame(width: CGFloat(92 - avgPoint.x))
+                        }
+                        
                         
                         // Plots Each Data point on the graph
                         
@@ -141,7 +166,7 @@ struct StatsView: View {
                             let color: Color =
                             yOffset > 0 ? (xOffset < 0 ? Color(red: 1, green: 0.5, blue: 0.5) : xOffset == 0 ? Color(red: 1, green: 0.75, blue: 0.5) : Color(red: 1, green: 1, blue: 0.5)) :
                             yOffset == 0 ? (xOffset < 0 ? Color(red: 0.5, green: 1, blue: 1) : xOffset == 0 ? Color(red: 0.5, green: 0.5, blue: 0.5) : Color(red: 0.75, green: 1, blue: 0.5)) :
-                            (xOffset < 0 ? Color(red: 0.5, green: 0.5, blue: 1) : xOffset == 0 ? Color(red: 0.5, green: 1, blue: 1) : Color(red: 0.5, green: 0.5, blue: 1))
+                            (xOffset < 0 ? Color(red: 0.5, green: 0.5, blue: 1) : xOffset == 0 ? Color(red: 0.5, green: 1, blue: 1) : Color(red: 0.5, green: 1, blue: 0.5))
                             
                             
                             
@@ -169,11 +194,12 @@ struct StatsView: View {
                         }
                         
                         
+                        
                     } // End ZStack
                     .frame(width: 200, height: 200)
                     
                 }
-                .background(.cyan)
+//                .background(.cyan)
                 
             } // End VStack
             
@@ -349,6 +375,24 @@ struct StatsView: View {
         
         return returnVal
         
+    }
+    
+    func findAvgMoodEnergy() -> CGPoint {
+        var mood = 0.0
+        var energy = 0.0
+        
+        for i in 0..<workouts.count {
+            let workout = workouts[i]
+            
+            mood += Double(workout.mood)
+            energy += Double(workout.energy)
+            
+        }
+        
+        mood /= Double(workouts.count)
+        energy /= Double(workouts.count)
+        
+        return CGPoint(x: mood, y: energy)
     }
     
 }
