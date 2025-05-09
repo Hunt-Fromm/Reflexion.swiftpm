@@ -20,6 +20,9 @@ let dayOfWeek = days[weekDay]
 // IS THERE ALSO A WAY TO FIND DAY OF THE WEEK? -> YES!
 
 struct AddView: View {
+    
+    @EnvironmentObject var workoutsViewModel: WorkoutsViewModel
+    
     @Binding var workouts: [Workout]
     
     // Variables YIPPEE!
@@ -545,6 +548,10 @@ struct AddView: View {
                                 
                                 // Re-sorts workouts list
                                 sortWorkouts(&workouts)
+                                
+                                // Updates the persistent data and saves it to iPhone memory
+                                workoutsViewModel.workouts = workouts
+                                workoutsViewModel.saveWorkouts()
                                 
                                 // Dismiss view
                                 didDismiss()

@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     // Workouts list currently filled with sample workouts
@@ -9,8 +10,9 @@ struct ContentView: View {
         Workout(type: "Hike", date: 16, month: 5, year: 2025),
         Workout(type: "Run", dayOfTheWeek: "Wednesday", date: 7, month: 5, year: 2025, hours: 1, minutes: 20, mood: 4, energy: 4, reflection: "")
     ]
-    
-    @AppStorage("workoutsData") var workoutsData: Data = Data()
+        
+    // This object holds the persistent workouts list and is accessable and editable from views
+    @StateObject var workoutsViewModel = WorkoutsViewModel(amDeveloping: true)
     
     @State var workoutsByMonth: [[Workout]] = []
     
@@ -29,6 +31,8 @@ struct ContentView: View {
                 Text("Workout Log")
                     .font(.custom(appFont, size: 40))
                     .onAppear {
+                        workoutsViewModel.retreiveWorkouts()
+                        workouts = workoutsViewModel.workouts
                         sortWorkoutsByMonth()
                     }
                 
@@ -150,7 +154,7 @@ struct ContentView: View {
                     
                 } // End ScrollView
             } // End VStack
-        
+            
             // Same toolbar for all views
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -189,7 +193,11 @@ struct ContentView: View {
                 }
             } // End toolbar
             
+            
         } // End NavStack
+        
+        // Injects persistent data into the environment so it is usable
+        .environmentObject(workoutsViewModel)
         
         // Changes background/theme
         .foregroundStyle(.white)
@@ -249,23 +257,6 @@ struct ContentView: View {
         }
          
         
-    }
-    
-    
-    /// Saves 'workouts' to AppStorage var workoutsData (Persistence!)
-    func saveWorkouts() {
-        // Executes JSONEncoder's function 'encode' to encode data in workouts into encodedData
-        if let encodedData = try? JSONEncoder().encode(workouts) {
-            workoutsData = encodedData
-        }
-    }
-    
-    /// Retreives 'workouts' from AppStorage var workoutsData (Persistence!)
-    func retreiveWorkouts() {
-        // Executes JSONEncoder's function 'decode' to decode data from workoutsData into decodedData
-        if let decodedData = try? JSONDecoder().decode([Workout].self, from: workoutsData) {
-            workouts = decodedData
-        }
     }
     
 }
