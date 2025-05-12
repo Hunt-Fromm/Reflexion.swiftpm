@@ -496,10 +496,11 @@ struct AddView: View {
                         .padding(.top)
                         .font(.custom(appFont, size: 20))
                     
-                    TextField("Enter text", text: $userReflection)
-                        .textFieldStyle(.roundedBorder)
+                    // Multiline text input
+                    TextEditor(text: $userReflection)
+                        .frame(height: 200)
+                        .border(Color.gray, width: 2)
                         .padding(.horizontal)
-                        .frame(width: 420, height: 120)
                         .font(.custom(appFont, size: 20))
                     
                         .navigationBarHidden(true)
@@ -604,6 +605,7 @@ struct AddView: View {
             //.frame(width: 0, height: 1000)
             
         } // end of nav stack
+        .padding()
         .foregroundStyle(.white)
         .preferredColorScheme(.dark)
             
