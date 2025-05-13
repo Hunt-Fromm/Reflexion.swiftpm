@@ -36,9 +36,8 @@ struct ContentView: View {
                         
                         sortWorkoutsByMonth()
                     }
+                    
                 
-                Text("\(workoutsViewModel.workouts.count)")
-                Text("\(workouts.count)")
                 
                 // Scrollview holding this page's data
                 ScrollView {
@@ -107,51 +106,27 @@ struct ContentView: View {
                         
                     } // end if statement
                     
-                    /*
-                    // This TextView is to be changed later
-                    Text("April 2025")
-                        .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
-                        .fontWeight(.bold)
-                        .underline()
+                    Button() {
+                        
+                        workouts = [
+                            Workout(type: "Run", dayOfTheWeek: "Tuesday", date: 15, month: 4, year: 2025, hours: 0, minutes: 30, mood: 4, energy: 2, reflection: "test test test test test test test test test test test test test test test test test test"),
+                            Workout(type: "Yoga", date: 17, month: 4, year: 2025),
+                            Workout(type: "Bike", date: 16, month: 4, year: 2025),
+                            Workout(type: "Hike", date: 16, month: 5, year: 2025),
+                            Workout(type: "Run", dayOfTheWeek: "Wednesday", date: 7, month: 5, year: 2025, hours: 1, minutes: 20, mood: 4, energy: 4, reflection: "")
+                        ]
+                        sortWorkoutsByMonth()
+                        workoutsViewModel.saveWorkouts(workouts)
                     
-                    HStack {
-                        
-                        //
-                        Spacer()
-                            .frame(width: 20)
-                        
-                        VStack {
-                            
-                            ForEach(0..<workouts.count, id: \.self) { index in
-                                
-                                let workout = workouts[index]
-                                
-                                NavigationLink(destination: {
-                                    DetailView(workouts: $workouts, workout: workouts[index])
-                                }, label: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .stroke(lineWidth: 3)
-                                            .foregroundStyle(.blue)
-                                        Text("\(workout.descr)")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(4)
-                                            .offset(x: 5)
-                                            
-                                    }
-                                })
-                                
+                    } label: {
+                        Capsule()
+                            .frame(width: 150, height: 50)
+                            .foregroundStyle(.red)
+                            .overlay() {
+                                Text("Reset")
+                                    .font(.custom("Arial Bold", size: 24))
                             }
-                            
-                        } // End VStack
-                        
-                        Spacer()
-                            .frame(width: 200)
-                        
                     }
-                    
-                    Spacer()
-                     */
                     
                     
                     

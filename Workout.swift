@@ -25,8 +25,9 @@ struct Workout: Hashable, Codable {
     var hours: Int
     var minutes: Int
     
-    var mood: Int
-    var energy: Int
+    
+    var mood: Int // Value 1 to 5
+    var energy: Int // Value 1 to 5
     var reflection: String
     
     // Numerical value used to sort workouts chronologically

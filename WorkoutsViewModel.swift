@@ -25,6 +25,13 @@ class WorkoutsViewModel: ObservableObject {
         }
     }
     
+    func saveWorkouts(_ workouts: [Workout]) {
+        // Executes JSONEncoder's function 'encode' to encode data in workouts into encodedData
+        if let encodedData = try? JSONEncoder().encode(workouts) {
+            workoutsData = encodedData
+        }
+    }
+    
     /// Retreives 'workouts' from AppStorage var workoutsData (Persistence!)
     func retreiveWorkouts() {
         // Executes JSONEncoder's function 'decode' to decode data from workoutsData into decodedData
