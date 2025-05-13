@@ -392,6 +392,9 @@ struct StatsView: View {
         mood /= Double(workouts.count)
         energy /= Double(workouts.count)
         
+        mood *= 40
+        energy *= 40
+        
         return CGPoint(x: mood, y: energy)
     }
     

@@ -12,7 +12,7 @@ struct ContentView: View {
     ]
         
     // This object holds the persistent workouts list and is accessable and editable from views
-    @StateObject var workoutsViewModel = WorkoutsViewModel(amDeveloping: true)
+    @StateObject var workoutsViewModel = WorkoutsViewModel()
     
     @State var workoutsByMonth: [[Workout]] = []
     
@@ -33,9 +33,12 @@ struct ContentView: View {
                     .onAppear {
                         workoutsViewModel.retreiveWorkouts()
                         workouts = workoutsViewModel.workouts
+                        
                         sortWorkoutsByMonth()
                     }
                 
+                Text("\(workoutsViewModel.workouts.count)")
+                Text("\(workouts.count)")
                 
                 // Scrollview holding this page's data
                 ScrollView {
