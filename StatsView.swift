@@ -384,13 +384,17 @@ struct StatsView: View {
         for i in 0..<workouts.count {
             let workout = workouts[i]
             
-            mood += Double(workout.mood)
-            energy += Double(workout.energy)
+            mood += Double(workout.mood) - 3
+            energy += Double(workout.energy) - 3
             
         }
         
-        mood /= Double(workouts.count)
-        energy /= Double(workouts.count)
+        print(mood)
+        print(energy)
+        
+        mood = mood / Double(workouts.count) * 40
+        energy = energy / Double(workouts.count) * 40
+        
         
         return CGPoint(x: mood, y: energy)
     }

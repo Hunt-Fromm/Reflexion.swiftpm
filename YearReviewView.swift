@@ -51,7 +51,7 @@ struct YearReviewView: View {
             
             VStack {
                 ForEach(0...6, id: \.self) { i in
-                    Text(days[(weekDay + 5 + i) % 7])
+                    Text(days[(weekDay + i) % 7])
                         .foregroundStyle(.white)
                         .font(.custom("Arial", size: 15))
                 }
@@ -63,12 +63,6 @@ struct YearReviewView: View {
                 tempWorkoutColors = workoutColors
                 activeDatecode = startingDatecode
                 
-                
-                
-                print(tempYearWorkouts.count)
-                print(tempYearDatecodes.count)
-                print(tempWorkoutColors.count)
-                print(tempWorkoutColors[0])
                 
                 showLog = true
                 
@@ -101,25 +95,14 @@ struct YearReviewView: View {
                                 
                                 VStack(spacing: 2.5) {
                                     ForEach(0...6, id: \.self) { j in
-                                        
-                                        
-                                        
-                                        
+
                                         
                                         Rectangle()
-                                        
                                             .frame(width: 15, height: 15)
-                                        
-                                        //                                    .onAppear() {
-                                        //                                        determineDailyColor(i, j)
-                                        //                                    }
-                                        //                                    .onDisappear() {
-                                        //                                        determineDailyColor(i, j)
-                                        //                                    }
-                                            .foregroundStyle(tempWorkoutColors[363 - (i * 7 + j)])
+                                            .foregroundStyle(tempWorkoutColors[363 - (i * 7 + 6 - j)])
                                         
                                         
-                                        
+                                    
                                     }
                                 }
                                 
