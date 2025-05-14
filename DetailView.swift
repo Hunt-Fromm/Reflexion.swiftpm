@@ -19,6 +19,8 @@ struct DetailView: View {
     @State var list:[String] = []
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
+    var edit = "false"
+    
     var body: some View {
         
         NavigationStack {
@@ -35,14 +37,11 @@ struct DetailView: View {
 
                 
                 Spacer()
-                    .frame(height: 100)
-                      
-                
-                
+                    .frame(height: 50)
                 
                 HStack {
                     
-                    // Duration
+                    // MARK: DURATION
                     VStack {
                         Text("Duration")
                             .font(.custom(appFont, size: 25))
@@ -52,10 +51,12 @@ struct DetailView: View {
                             Text("\(workout.hours):\(workout.minutes) hr")
                                 .font(.custom(appFont, size: 25))
                                 .padding(.top)
+                                .foregroundStyle(.blue)
                         }
                         else {
                             Text("\(workout.minutes) min")
                                 .font(.custom(appFont, size: 25))
+                                .foregroundStyle(.blue)
 
                         }
                     } // end of VStack (duration)
@@ -64,7 +65,7 @@ struct DetailView: View {
                         .frame(width: 50)
                     
                     VStack {
-                        // Mood
+                        // MARK: MOOD
                         
                         let veryHappy = 0x1F601
                         let happy = 0x1F600
@@ -111,10 +112,10 @@ struct DetailView: View {
                         let rabbit = 0x1F407
                         let personWalking = 0x1F6B6
                         
+                        Text("Energy")
+                            .font(.custom(appFont, size: 25))
+                        
                         if workout.energy != 0 {
-                            
-                            Text("Energy")
-                                .font(.custom(appFont, size: 25))
                             
                             if workout.energy == 1 {
                                 Text(String(UnicodeScalar(turtle)!))
@@ -145,10 +146,19 @@ struct DetailView: View {
                             }
                             
                         }
+                        else {
+                            Button {
+                                
+                            } label: {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.custom(appFont, size: 50))
+                                    .foregroundStyle(.gray)
+                            }
+                        }
                     } // end of VStack (energy)
                 } // end of HStack (emoji)
                 
-                //if workout.reflection != "" {
+                // MARK: REFLECTION
                     Text("Reflection:")
                         .font(.custom(appFont, size: 25))
                         .frame(alignment: .leadingFirstTextBaseline)
@@ -158,12 +168,13 @@ struct DetailView: View {
                                         
                     // Multiline text input
                     TextEditor(text: $reflection)
-                        .frame(height: 200)
+                        .frame(height: 450)
                         .border(Color.gray, width: 4)
                         .padding(.horizontal)
                         .font(.custom(appFont, size: 20))
+                        .tint(.white.opacity(0))
+                        
                     
-               // } // end of if statement
                 
             } // End VStack
 
@@ -184,6 +195,19 @@ struct DetailView: View {
                     
                 }
                 
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        //dismiss()
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                            .foregroundStyle(.blue)
+                            .font(.system(size: 25))
+                            .bold()
+                            .padding(.trailing)
+                    }
+                    
+                }
+                
                 ToolbarItemGroup(placement: .bottomBar) {
                     
                     
@@ -198,5 +222,5 @@ struct DetailView: View {
 
 
 //#Preview {
-//    DetailView(workouts: workout[0])
+//    DetailView(workouts: )
 //}
