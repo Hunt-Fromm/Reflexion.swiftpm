@@ -196,8 +196,8 @@ struct DetailView: View {
                 }
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button {
-                        //dismiss()
+                    NavigationLink {
+                        EditView(workout: workout, workouts: $workouts)
                     } label: {
                         Image(systemName: "ellipsis.circle")
                             .foregroundStyle(.blue)

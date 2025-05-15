@@ -1,25 +1,15 @@
 //
-//  AddView.swift
+//  EditView.swift
 //  Reflexion
 //
-//  Created by Frommelt, Hunter (512131) on 4/15/25.
+//  Created by Kasprzak, Maksymilian (512840) on 5/15/25.
 //
 
 import SwiftUI
 
-// Accesses Today's Date
-let dateObject = Date()
-let calendar = Calendar.current
-let yearToday = calendar.component(.year, from: dateObject) // 2025
-let monthToday = calendar.component(.month, from: dateObject) // 0 thru 11 for Jan thru Dec
-let dateToday = calendar.component(.day, from: dateObject)
-let weekDay = calendar.component(.weekday, from: dateObject)
-let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-let dayOfWeek = days[weekDay]
-
-// IS THERE ALSO A WAY TO FIND DAY OF THE WEEK? -> YES!
-
-struct AddView: View {
+struct EditView: View {
+    
+    var workout: Workout
     
     @EnvironmentObject var workoutsViewModel: WorkoutsViewModel
     
@@ -30,14 +20,14 @@ struct AddView: View {
     var existingWorkout: Workout?
     
     // Allows app to notify whatever view it is returning to that AddView has been dismissed
-    var didDismiss: (() -> Void)
+    //var didDismiss: (() -> Void)
     
-    @State var newWorkoutType = ""
-    @State var newWorkoutHours = 0
-    @State var newWorkoutMinutes = 30
-    @State var newWorkoutDay = dateToday
-    @State var newWorkoutMonth = monthToday
-    @State var newWorkoutYear = yearToday
+    @State var workoutType:String
+    @State var workoutHours = 0
+    @State var workoutMinutes = 30
+    @State var workoutDay = dateToday
+    @State var workoutMonth = monthToday
+    @State var workoutYear = yearToday
     @State var userMood: Int = 0
     @State var userEnergy: Int = 0
     @State var userReflection: String = ""
@@ -54,18 +44,17 @@ struct AddView: View {
     @State var workoutTypes: [String] = ["Gym", "Run", "Hike", "Other"]
     
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    
-    @State var pickerVal = 0
-    
-    @StateObject var stopWatch = StopWatch()
-    @State var stopWatchRunning = false
-    
+        
     let appFont:String = "DINAlternate-Bold"
     
     @State var saveOrDelete:String = "save"
     
+//    init(workoutType: String, workoutHours: Int, workoutMinutes: Int, workoutDay: Int, workoutMonth: Int, workoutYear: Int, userMood: Int, userEnergy: Int, userReflection: String) {
+//        self.workoutType = workout.type
+//    }
+    
     var body: some View {
-            
+        
         NavigationStack {
         
             ScrollView {
@@ -73,22 +62,11 @@ struct AddView: View {
                 VStack(spacing: 0) {
                     
                     // Displays today's date
-                    Text("New Workout")
+                    Text("Edit Workout")
                         .font(.custom(appFont, size: 40))
                         .bold()
                         .font(.title)
                         .padding(.bottom)
-                    
-                    Picker("", selection: $pickerVal) {
-                        ForEach(0..<2, id: \.self) { index in
-                            Text(index == 0 ? "Completed" : "Current")
-                                .font(.custom(appFont, size: 20))
-                                .tag(index)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(width: UIScreen.main.bounds.width - 80)
-                    
                     
                     // Workout details
                     
@@ -117,7 +95,7 @@ struct AddView: View {
                                 }
                                 
                                 if typeSelection != "Other" {
-                                    newWorkoutType = typeSelection
+                                    workoutType = typeSelection
                                 }
                                 
                             } label: {
@@ -137,43 +115,11 @@ struct AddView: View {
                             }
                         }
                         
-                        // WIP Button to add additional workout types
-                        /*
-                         Button() {
-                         addingType = true
-                         } label: {
-                         if addingType {
-                         ZStack {
-                         Capsule()
-                         .stroke(lineWidth: 3)
-                         .frame(width: 30 + CGFloat(newTypeText.count * 10), height: 30)
-                         .foregroundStyle(.blue)
-                         
-                         TextField("", text: $newTypeText)
-                         .foregroundStyle(.white)
-                         .onSubmit {
-                         workoutTypes.append(newTypeText)
-                         addingType = false
-                         }
-                         }
-                         } else {
-                         ZStack {
-                         Capsule()
-                         .stroke(lineWidth: 3)
-                         .frame(width: 30, height: 30)
-                         .foregroundStyle(.blue)
-                         
-                         Text("+")
-                         }
-                         .padding(2)
-                         }
-                         }*/
-                        
                         Spacer()
                     }
                     
                     if typeSelection == "Other" {
-                        TextField("Type of Workout", text: $newWorkoutType)
+                        TextField("Type of Workout", text: $workoutType)
                             .textFieldStyle(.roundedBorder)
                             .padding(.horizontal)
                     }
@@ -188,7 +134,7 @@ struct AddView: View {
                     
                     HStack {
                         // Day
-                        Picker("", selection: $newWorkoutDay) {
+                        Picker("", selection: $workoutDay) {
                             ForEach(1...31, id: \.self) {
                                 index in
                                 Text(String(index))
@@ -200,7 +146,7 @@ struct AddView: View {
                         .frame(width: 75, height: 100)
                         
                         // Month
-                        Picker("", selection: $newWorkoutMonth) {
+                        Picker("", selection: $workoutMonth) {
                             ForEach(1...12, id: \.self) {
                                 index in
                                 Text(months[index-1])
@@ -212,7 +158,7 @@ struct AddView: View {
                         .frame(width: 150, height: 100)
                         
                         // Year
-                        Picker("", selection: $newWorkoutYear) {
+                        Picker("", selection: $workoutYear) {
                             ForEach(2025...3000, id: \.self) {
                                 index in
                                 Text(String(index))
@@ -232,79 +178,36 @@ struct AddView: View {
                         .bold()
                         .font(.custom(appFont, size: 20))
                     
-                    // If workout completed, show selector for duration
-                    if pickerVal == 0 {
-                        
-                        HStack {
-                            // Hours
-                            Picker("", selection: $newWorkoutHours) {
-                                ForEach(0...23, id: \.self) {
-                                    index in
-                                    Text(String(index) + " hr")
-                                        .font(.custom(appFont, size: 20))
-                                }
-                                
+                    
+                    HStack {
+                        // Hours
+                        Picker("", selection: $workoutHours) {
+                            ForEach(0...23, id: \.self) {
+                                index in
+                                Text(String(index) + " hr")
+                                    .font(.custom(appFont, size: 20))
                             }
-                            .pickerStyle(WheelPickerStyle())
-                            .frame(width: 75, height: 100)
-                            
-                            // Minutes
-                            Picker("", selection: $newWorkoutMinutes) {
-                                ForEach(0...59, id: \.self) {
-                                    index in
-                                    Text(String(index) + " min")
-                                        .font(.custom(appFont, size: 20))
-                                    
-                                    
-                                }
-                                
-                            }
-                            .pickerStyle(WheelPickerStyle())
-                            .frame(width: 100, height: 100)
                             
                         }
-                    } else { // Shows Timer to determine duration if workout is current
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(width: 75, height: 100)
                         
-                        HStack {
-                            
-                            Button() {
+                        // Minutes
+                        Picker("", selection: $workoutMinutes) {
+                            ForEach(0...59, id: \.self) {
+                                index in
+                                Text(String(index) + " min")
+                                    .font(.custom(appFont, size: 20))
                                 
-                                if stopWatchRunning {
-                                    stopWatch.stop()
-                                    setCurrentWorkoutDuration()
-                                } else {
-                                    stopWatch.start()
-                                }
                                 
-                                stopWatchRunning.toggle()
-                                
-                            } label: {
-                                
-                                Capsule()
-                                    .frame(width: 100, height: 50)
-                                    .foregroundStyle(stopWatchRunning ? .red : .green)
-                                    .overlay {
-                                        Text(stopWatchRunning ? "Stop" : "Start")
-                                            .font(.custom(appFont, size: 20))
-                                            .foregroundStyle(.white)
-                                    }
                             }
                             
-                            Spacer()
-                            
-                            
-                            
-                            Text("\(stopWatch.hours) : \(stopWatch.minutes) : \(String(format: "%.1f", stopWatch.getSeconds()))")
-                                .font(.custom(appFont, size: 20))
-                            
-                            
-                            
                         }
-                        .frame(width: 300)
-                        .padding(25)
-                        .foregroundStyle(.white)
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(width: 100, height: 100)
                         
                     }
+                
                     
                     // MARK: Mood
                     Text("Mood")
@@ -523,39 +426,32 @@ struct AddView: View {
                             
                             Button { // Save/Delete button
                                 
-                                // If current workout, set hours and minutes
-                                if pickerVal == 1 {
-                                    setCurrentWorkoutDuration()
-                                }
-
-                                stopWatch.reset()
-                                
                                 // Only saves if user clicks checkmark
                                 if saveOrDelete == "save" {
-                                    // Changes newWorkoutType to "Other" if it was originally empty
-                                    if newWorkoutType == "" {
-                                        newWorkoutType = "Other"
+                                    // Changes workoutType to "Other" if it was originally empty
+                                    if workoutType == "" {
+                                        workoutType = "Other"
                                     }
                                     
                                     // passes workouts list
                                     
-                                    let newWorkout = Workout(type: newWorkoutType, dayOfTheWeek: "ignore", date: newWorkoutDay, month: newWorkoutMonth, year: newWorkoutYear, hours: newWorkoutHours, minutes: newWorkoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
+                                    let workout = Workout(type: workoutType, dayOfTheWeek: "ignore", date: workoutDay, month: workoutMonth, year: workoutYear, hours: workoutHours, minutes: workoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
                                     
-                                    if (!isEmpty(workout: newWorkout)) {
-                                        workouts.append(newWorkout)
+                                    if (!isEmpty(workout: workout)) {
+                                        workouts.append(workout)
                                     }
                                 }
                                 
-                                // Re-sorts workouts list
-                                sortWorkouts(&workouts)
-                                
-                                // Updates the persistent data and saves it to iPhone memory
-                                workoutsViewModel.workouts = workouts
-                                workoutsViewModel.saveWorkouts()
-                                
-                                // Dismiss view
-                                didDismiss()
-                                dismiss()
+//                                // Re-sorts workouts list
+//                                sortWorkouts(&workouts)
+//                                
+//                                // Updates the persistent data and saves it to iPhone memory
+//                                workoutsViewModel.workouts = workouts
+//                                workoutsViewModel.saveWorkouts()
+//                                
+//                                // Dismiss view
+//                                didDismiss()
+//                                dismiss()
                                 
                             } label: {
                                 
@@ -589,20 +485,10 @@ struct AddView: View {
                     
                     Spacer()
                     
-//                    NavigationLink {
-//                        StatsView(workouts: $workouts)
-//                    } label: {
-//                        Image(systemName: "chart.xyaxis.line")
-//                            .font(.system(size: 25))
-//                            .padding(.trailing)
-//                    }
-
                 } // End of toolbar group
                 
             } // End toolbar
-            
-            //.frame(width: 0, height: 1000)
-            
+                        
         } // end of nav stack
         .padding()
         .foregroundStyle(.white)
@@ -610,17 +496,6 @@ struct AddView: View {
             
     }
     
-    func setCurrentWorkoutDuration() {
-        newWorkoutHours = stopWatch.getHours()
-        newWorkoutMinutes = stopWatch.getMinutes() + (Int(stopWatch.getSeconds().rounded()) + 30) / 60
-    }
-    
 } // end of addView
 
-func isEmpty (workout: Workout) -> Bool {
-    return workout.type == ""
-}
 
-//#Preview {
-//    AddView(workouts: $workouts)
-//}
