@@ -9,28 +9,29 @@ import SwiftUI
 
 struct EditView: View {
     
-    var workout: Workout
+    //var workout: Workout
     
-    @EnvironmentObject var workoutsViewModel: WorkoutsViewModel
+    //@EnvironmentObject var workoutsViewModel: WorkoutsViewModel
     
     @Binding var workouts: [Workout]
+    
+    @State var existingWorkout: Workout
         
     @Environment(\.dismiss) var dismiss
     
-    var existingWorkout: Workout?
     
-    // Allows app to notify whatever view it is returning to that AddView has been dismissed
-    //var didDismiss: (() -> Void)
+//    // Allows app to notify whatever view it is returning to that AddView has been dismissed
+//    var didDismiss: (() -> Void)
     
-    @State var workoutType:String
-    @State var workoutHours = 0
-    @State var workoutMinutes = 30
-    @State var workoutDay = dateToday
-    @State var workoutMonth = monthToday
-    @State var workoutYear = yearToday
-    @State var userMood: Int = 0
-    @State var userEnergy: Int = 0
-    @State var userReflection: String = ""
+    @State var workoutType: String
+    @State var workoutHours: Int
+    @State var workoutMinutes: Int
+    @State var workoutDay: Int
+    @State var workoutMonth: Int
+    @State var workoutYear: Int
+    @State var userMood: Int
+    @State var userEnergy: Int
+    @State var userReflection: String
     
     // Whether or not user is adding a new workout type
     @State var addingType = false
@@ -49,11 +50,13 @@ struct EditView: View {
     
     @State var saveOrDelete:String = "save"
     
-//    init(workoutType: String, workoutHours: Int, workoutMinutes: Int, workoutDay: Int, workoutMonth: Int, workoutYear: Int, userMood: Int, userEnergy: Int, userReflection: String) {
-//        self.workoutType = workout.type
-//    }
-    
     var body: some View {
+        
+//        workoutType = existingWorkout.type
+//        workoutHours = workout.hours
+//        workoutMinutes = workout.minutes
+//        workoutDay = workout.date
+//        workoutMonth = workout.month
         
         NavigationStack {
         
@@ -428,18 +431,23 @@ struct EditView: View {
                                 
                                 // Only saves if user clicks checkmark
                                 if saveOrDelete == "save" {
-                                    // Changes workoutType to "Other" if it was originally empty
-                                    if workoutType == "" {
-                                        workoutType = "Other"
-                                    }
                                     
-                                    // passes workouts list
-                                    
-                                    let workout = Workout(type: workoutType, dayOfTheWeek: "ignore", date: workoutDay, month: workoutMonth, year: workoutYear, hours: workoutHours, minutes: workoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
-                                    
-                                    if (!isEmpty(workout: workout)) {
-                                        workouts.append(workout)
-                                    }
+//                                    for i in workouts {
+//                                        if workouts[i] == existingWorkout {
+//                                            workouts[i].type = workoutType
+//                                        }
+//                                    }
+//                                    
+//                                    existingWorkout.type = workoutType
+//                                    existingWorkout.hours = workoutHours
+//                                    existingWorkout.minutes = workoutMinutes
+//                                    existingWorkout.date = workoutDay
+//                                    existingWorkout.month = workoutMonth
+//                                    existingWorkout.year = workoutYear
+//                                    existingWorkout.mood = userMood
+//                                    existingWorkout.energy = userEnergy
+//                                    existingWorkout.reflection = userReflection
+                                    // PUT THE COMMENTS ABOVE IN A NEW FUNCTION TO BYPASS TYPE CHECK ERROR
                                 }
                                 
 //                                // Re-sorts workouts list
@@ -451,7 +459,7 @@ struct EditView: View {
 //                                
 //                                // Dismiss view
 //                                didDismiss()
-//                                dismiss()
+                                  dismiss()
                                 
                             } label: {
                                 

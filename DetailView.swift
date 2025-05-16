@@ -197,7 +197,7 @@ struct DetailView: View {
                 
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     NavigationLink {
-                        EditView(workout: workout, workouts: $workouts)
+                        EditView(workouts: $workouts, existingWorkout: workout,  workoutType: workout.type, workoutHours: workout.hours, workoutMinutes: workout.minutes, workoutDay: workout.date, workoutMonth: workout.month, workoutYear: workout.year, userMood: workout.mood, userEnergy: workout.energy, userReflection: workout.reflection)
                     } label: {
                         Image(systemName: "ellipsis.circle")
                             .foregroundStyle(.blue)
