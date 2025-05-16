@@ -389,8 +389,6 @@ struct StatsView: View {
             
         }
         
-        print(mood)
-        print(energy)
         
         mood = mood / Double(workouts.count) * 40
         energy = energy / Double(workouts.count) * 40

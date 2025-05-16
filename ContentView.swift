@@ -28,14 +28,40 @@ struct ContentView: View {
         NavigationStack {
             
             VStack {
-                Text("Workout Log")
-                    .font(.custom(appFont, size: 40))
-                    .onAppear {
-                        workoutsViewModel.retreiveWorkouts()
-                        workouts = workoutsViewModel.workouts
+                ZStack {
+                    Text("Workout Log")
+                        .font(.custom(appFont, size: 40))
+                        .onAppear {
+                            workoutsViewModel.retreiveWorkouts()
+                            workouts = workoutsViewModel.workouts
+                            
+                            sortWorkoutsByMonth()
+                        }
+                    
+                    // Clickable settings icon
+                    HStack {
                         
-                        sortWorkoutsByMonth()
+                        Spacer()
+                            .frame(maxWidth: .infinity, maxHeight: 1)
+                        
+                            
+                        NavigationLink {
+                            SettingsView(workouts: $workouts, workoutsViewModel: workoutsViewModel, sortWorkoutsByMonth: sortWorkoutsByMonth())
+                        } label: {
+                            Image(systemName: "gear")
+                                .font(.system(size: 25))
+                                .padding(.leading)
+                        }
+                        .offset(y: -20)
+                        
+                        Spacer()
+                            .frame(maxWidth: 30, maxHeight: 1)
+                        
                     }
+                    
+                    
+                }
+                
                     
                 
                 
@@ -106,26 +132,12 @@ struct ContentView: View {
                         
                     } // end if statement
                     
-                    Button() {
-                        
-                        workouts = [
-                            Workout(type: "Run", dayOfTheWeek: "Tuesday", date: 15, month: 4, year: 2025, hours: 0, minutes: 30, mood: 4, energy: 2, reflection: "test test test test test test test test test test test test test test test test test test"),
-                            Workout(type: "Yoga", date: 17, month: 4, year: 2025),
-                            Workout(type: "Bike", date: 16, month: 4, year: 2025),
-                            Workout(type: "Hike", date: 16, month: 5, year: 2025),
-                            Workout(type: "Run", dayOfTheWeek: "Wednesday", date: 7, month: 5, year: 2025, hours: 1, minutes: 20, mood: 4, energy: 4, reflection: "")
-                        ]
-                        sortWorkoutsByMonth()
-                        workoutsViewModel.saveWorkouts(workouts)
-                    
-                    } label: {
-                        Capsule()
-                            .frame(width: 150, height: 50)
-                            .foregroundStyle(.red)
-                            .overlay() {
-                                Text("Reset")
-                                    .font(.custom("Arial Bold", size: 24))
-                            }
+                    else {
+                        Text("You haven't created any workouts yet.\nAdd one to get started!")
+                            .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.leading)
+                            .font(.custom(appFont, size: 20))
                     }
                     
                     
@@ -135,6 +147,7 @@ struct ContentView: View {
             
             // Same toolbar for all views
             .toolbar {
+                
                 ToolbarItemGroup(placement: .bottomBar) {
                     
                     // Content View
@@ -189,7 +202,7 @@ struct ContentView: View {
     
     
     /// Sets the Value of workoutsByMonth to a 2D Array of workouts, each internal array representing a different month, in reverse chronological order
-    func sortWorkoutsByMonth() {
+    func sortWorkoutsByMonth() -> Void {
         workoutsByMonth = []
         
         // Sorting workouts in reverse chronological order
