@@ -17,6 +17,9 @@ struct DetailView: View {
     
     let appFont:String = "DINAlternate-Bold"
     @State var list:[String] = []
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
+    var edit = "false"
     
     var body: some View {
         
@@ -24,34 +27,45 @@ struct DetailView: View {
             
             VStack {
                 
-                // Title
-                Text("\(workout.weekdayDescr())")
-                    .font(.custom(appFont, size: 35))
-                    .frame(alignment: .top)
+                // Type
+                Text("\(workout.type)")
+                    .font(.custom(appFont, size: 50))
+                
+                // Date
+                Text("\(months[workout.month-1]) \(workout.date), " + String(workout.year))
+                    .font(.custom(appFont, size: 20))
+
                 
                 Spacer()
-                    .frame(height: 100)
-                      
-                // Duration
-                VStack {
-                    Text("Duration")
-                        .font(.custom(appFont, size: 25))
-                        .foregroundStyle(.blue)
-                    
-                    if workout.hours != 0 {
-                        Text("\(workout.hours):\(workout.minutes) hr")
-                            .font(.custom(appFont, size: 20))
-                    }
-                    else {
-                        Text("\(workout.minutes) min")
-                            .font(.custom(appFont, size: 20))
-                    }
-                } // end of VStack (duration)
-                
+                    .frame(height: 50)
                 
                 HStack {
+                    
+                    // MARK: DURATION
                     VStack {
-                        // Mood
+                        Text("Duration")
+                            .font(.custom(appFont, size: 25))
+                            .padding(.bottom)
+                        
+                        if workout.hours != 0 {
+                            Text("\(workout.hours):\(workout.minutes) hr")
+                                .font(.custom(appFont, size: 25))
+                                .padding(.top)
+                                .foregroundStyle(.blue)
+                        }
+                        else {
+                            Text("\(workout.minutes) min")
+                                .font(.custom(appFont, size: 25))
+                                .foregroundStyle(.blue)
+
+                        }
+                    } // end of VStack (duration)
+                    
+                    Spacer()
+                        .frame(width: 50)
+                    
+                    VStack {
+                        // MARK: MOOD
                         
                         let veryHappy = 0x1F601
                         let happy = 0x1F600
@@ -63,7 +77,6 @@ struct DetailView: View {
                             
                             Text("Mood")
                                 .font(.custom(appFont, size: 25))
-                                .foregroundStyle(.blue)
                             
                             if workout.mood == 1 {
                                 Text(String(UnicodeScalar(verySad)!))
@@ -90,7 +103,7 @@ struct DetailView: View {
                     } // end of VStack (mood)
                     
                     Spacer()
-                        .frame(width: 150)
+                        .frame(width: 50)
                     
                     VStack {
                         // Energy
@@ -99,11 +112,10 @@ struct DetailView: View {
                         let rabbit = 0x1F407
                         let personWalking = 0x1F6B6
                         
+                        Text("Energy")
+                            .font(.custom(appFont, size: 25))
+                        
                         if workout.energy != 0 {
-                            
-                            Text("Energy")
-                                .font(.custom(appFont, size: 25))
-                                .foregroundStyle(.blue)
                             
                             if workout.energy == 1 {
                                 Text(String(UnicodeScalar(turtle)!))
@@ -134,13 +146,21 @@ struct DetailView: View {
                             }
                             
                         }
+                        else {
+                            Button {
+                                
+                            } label: {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.custom(appFont, size: 50))
+                                    .foregroundStyle(.gray)
+                            }
+                        }
                     } // end of VStack (energy)
                 } // end of HStack (emoji)
                 
-                if workout.reflection != "" {
+                // MARK: REFLECTION
                     Text("Reflection:")
                         .font(.custom(appFont, size: 25))
-                        .foregroundStyle(.blue)
                         .frame(alignment: .leadingFirstTextBaseline)
                         //.padding(.horizontal)
 
@@ -148,12 +168,13 @@ struct DetailView: View {
                                         
                     // Multiline text input
                     TextEditor(text: $reflection)
-                        .frame(height: 200)
-                        .border(Color.blue, width: 4)
+                        .frame(height: 450)
+                        .border(Color.gray, width: 4)
                         .padding(.horizontal)
                         .font(.custom(appFont, size: 20))
+                        .tint(.white.opacity(0))
+                        
                     
-                } // end of if statement
                 
             } // End VStack
 
@@ -174,6 +195,19 @@ struct DetailView: View {
                     
                 }
                 
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    NavigationLink {
+                        EditView(workouts: $workouts, existingWorkout: workout,  workoutType: workout.type, workoutHours: workout.hours, workoutMinutes: workout.minutes, workoutDay: workout.date, workoutMonth: workout.month, workoutYear: workout.year, userMood: workout.mood, userEnergy: workout.energy, userReflection: workout.reflection)
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                            .foregroundStyle(.blue)
+                            .font(.system(size: 25))
+                            .bold()
+                            .padding(.trailing)
+                    }
+                    
+                }
+                
                 ToolbarItemGroup(placement: .bottomBar) {
                     
                     
@@ -186,25 +220,7 @@ struct DetailView: View {
     } // End of body
 }
 
-func createTextBox(reflection: String) -> [String] {
-        
-    var list:[String] = []
-    
-    let refl = reflection
-    
-    for i in 1...(reflection.count/35) {
-        print(i)
-        let start = refl.index(refl.startIndex, offsetBy: 0)
-        let end = (refl.count > 50) ? refl.index(refl.startIndex, offsetBy: 50) : refl.index(refl.endIndex, offsetBy: 0)
-        let part = String(reflection[start..<end])
-        print(part)
-        print("new line")
-        list.append(part)
-    }
-    
-    return list
-}
 
 //#Preview {
-//    DetailView(workouts: workout[0])
+//    DetailView(workouts: )
 //}
