@@ -28,6 +28,7 @@ struct StatsView: View {
     let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     let todayDateCode = yearToday * 10000 + monthToday * 100 + dateToday
     
+    @Binding var darkMode: Bool
     
     
     var body: some View {
@@ -36,6 +37,7 @@ struct StatsView: View {
                 
                 Text("You worked out for \(yearDuration / 60) hours and \(yearDuration % 60) minutes this year!")
                     .multilineTextAlignment(.leading)
+                    .padding(15)
                     .onAppear() {
                         yearOfWorkouts()
                     }
@@ -48,7 +50,7 @@ struct StatsView: View {
                             .frame(width: 20)
                         
                         ZStack {
-                            YearReviewView(startingDatecode: yearStartCode, workoutColors: workoutColors, yearWorkouts: yearWorkouts, yearDatecodes: yearDatecodes, isLeapYear: isLeapYear(_:), makeValidDatecode: makeValidDatecode(_:))
+                            YearReviewView(startingDatecode: yearStartCode, workoutColors: workoutColors, yearWorkouts: yearWorkouts, yearDatecodes: yearDatecodes, isLeapYear: isLeapYear(_:), makeValidDatecode: makeValidDatecode(_:), darkMode: $darkMode)
                             
                             
                         }
@@ -81,7 +83,6 @@ struct StatsView: View {
                             Image(systemName: "arrow.right")
                             
                         }
-                        .foregroundStyle(.white)
                         .font(.custom("Arial Bold", size: 20))
                         .rotationEffect(Angle(degrees: -90))
                         .offset(x: -120)
@@ -96,7 +97,6 @@ struct StatsView: View {
                             Image(systemName: "arrow.right")
                             
                         }
-                        .foregroundStyle(.white)
                         .font(.custom("Arial Bold", size: 20))
                         .offset(y: 120)
                         
@@ -113,7 +113,6 @@ struct StatsView: View {
                             Spacer()
                                 .frame(height: 98)
                         }
-                        .foregroundStyle(.white)
                         
                         
                         // Vertical Center line of graph
@@ -127,7 +126,6 @@ struct StatsView: View {
                             Spacer()
                                 .frame(width: 98)
                         }
-                        .foregroundStyle(.white)
                         
                         // Plots Average Data point on graph
                         HStack {
@@ -197,6 +195,7 @@ struct StatsView: View {
                         
                     } // End ZStack
                     .frame(width: 200, height: 200)
+                    .foregroundStyle(darkMode ? .white : . black)
                     
                 }
 //                .background(.cyan)
@@ -223,7 +222,7 @@ struct StatsView: View {
                         workoutColors = []
 //                        yearWorkouts = [Workout(type: "1", date: 1, month: 5, year: 2025)]
                         yearOfWorkouts()
-                    })) {
+                    }, darkMode: $darkMode)) {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 60, weight: .bold))
                             .offset(x: 0, y: -10)

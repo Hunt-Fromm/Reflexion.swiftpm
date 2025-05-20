@@ -18,25 +18,54 @@ struct SettingsView: View {
     
     @State var showAlert = false
     
+    @Binding var darkMode: Bool
+    
     var body: some View {
         
         NavigationStack {
             
+                
             VStack {
                 
-                // Back button
-                Button() {
-                    dismiss()
-                } label: {
-                    Image(systemName: "arrow.left.to.line.alt")
-                        .frame(width: UIScreen.main.bounds.width - 40, alignment: .leading)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.leading)
-                        .font(.custom("Arial Bold", size: 40))
-                        .foregroundStyle(.white)
+                // Dark Mode Toggle
+                HStack {
+                    
+                    Text("Dark Mode:")
+                        .font(.custom("Arial Bold", size: 22))
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(darkMode ? .white : . black)
+                    
+                    
+                    Spacer()
+                        .frame(width: 20)
+                    
+                    Button() {
+                        darkMode.toggle()
+                    } label: {
+                        
+                        ZStack {
+                            
+                            Capsule()
+                                .frame(width: 60, height: 30)
+                                .foregroundStyle(darkMode ? .blue : .gray)
+                            
+                            HStack {
+                                Spacer()
+                                    .frame(width: darkMode ? 30 : 0)
+                                
+                                Circle()
+                                    .frame(width: 24)
+                                    .foregroundStyle(.white)
+                                
+                                Spacer()
+                                    .frame(width: darkMode ? 0 : 30)
+                            }
+                        }
+                    }
                 }
-
                 
+                
+                // Developer Reset button - resets to initial 5 items
                 Button() {
                     
                     workouts = [
@@ -61,6 +90,8 @@ struct SettingsView: View {
                         }
                 }
                 
+                
+                // Reset all workouts
                 Button() {
                     
                     showAlert.toggle()
@@ -94,8 +125,27 @@ struct SettingsView: View {
             }
             .frame(width: 200)
             
+            
+            
         }
-        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.blue)
+                        .font(.system(size: 20))
+                        .bold()
+                    Image(systemName: "list.dash")
+                        .foregroundStyle(.blue)
+                        .font(.system(size: 25))
+                        .bold()
+                }
+            }
+            
+        }
         
         
     }

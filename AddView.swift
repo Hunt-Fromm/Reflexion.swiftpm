@@ -64,6 +64,8 @@ struct AddView: View {
     
     @State var saveOrDelete:String = "save"
     
+    @Binding var darkMode: Bool
+    
     var body: some View {
             
         NavigationStack {
@@ -78,6 +80,8 @@ struct AddView: View {
                         .bold()
                         .font(.title)
                         .padding(.bottom)
+                        .foregroundStyle(darkMode ? .white : .black)
+                    
                     
                     Picker("", selection: $pickerVal) {
                         ForEach(0..<2, id: \.self) { index in
@@ -99,6 +103,7 @@ struct AddView: View {
                         .padding(.top)
                         .bold()
                         .font(.custom(appFont, size: 20))
+                        .foregroundStyle(darkMode ? .white : .black)
                     
                     Spacer()
                         .frame(height: 10)
@@ -132,42 +137,12 @@ struct AddView: View {
                                         .opacity(typeSelection == type ? 0.25 : 0)
                                     Text("\(type)")
                                         .font(.custom(appFont, size: 15))
+                                        .foregroundStyle(darkMode ? .white : .black)
                                 }
                                 .padding(2)
                             }
                         }
-                        
-                        // WIP Button to add additional workout types
-                        /*
-                         Button() {
-                         addingType = true
-                         } label: {
-                         if addingType {
-                         ZStack {
-                         Capsule()
-                         .stroke(lineWidth: 3)
-                         .frame(width: 30 + CGFloat(newTypeText.count * 10), height: 30)
-                         .foregroundStyle(.blue)
-                         
-                         TextField("", text: $newTypeText)
-                         .foregroundStyle(.white)
-                         .onSubmit {
-                         workoutTypes.append(newTypeText)
-                         addingType = false
-                         }
-                         }
-                         } else {
-                         ZStack {
-                         Capsule()
-                         .stroke(lineWidth: 3)
-                         .frame(width: 30, height: 30)
-                         .foregroundStyle(.blue)
-                         
-                         Text("+")
-                         }
-                         .padding(2)
-                         }
-                         }*/
+
                         
                         Spacer()
                     }
@@ -185,6 +160,7 @@ struct AddView: View {
                         .padding(.top)
                         .bold()
                         .font(.custom(appFont, size: 20))
+                        .foregroundStyle(darkMode ? .white : .black)
                     
                     HStack {
                         // Day
@@ -231,6 +207,7 @@ struct AddView: View {
                         .padding(.top)
                         .bold()
                         .font(.custom(appFont, size: 20))
+                        .foregroundStyle(darkMode ? .white : .black)
                     
                     // If workout completed, show selector for duration
                     if pickerVal == 0 {
@@ -286,7 +263,8 @@ struct AddView: View {
                                     .overlay {
                                         Text(stopWatchRunning ? "Stop" : "Start")
                                             .font(.custom(appFont, size: 20))
-                                            .foregroundStyle(.white)
+                                            .foregroundStyle(darkMode ? .white : .black)
+                                        
                                     }
                             }
                             
@@ -296,6 +274,7 @@ struct AddView: View {
                             
                             Text("\(stopWatch.hours) : \(stopWatch.minutes) : \(String(format: "%.1f", stopWatch.getSeconds()))")
                                 .font(.custom(appFont, size: 20))
+                                .foregroundStyle(darkMode ? .white : .black)
                             
                             
                             
@@ -312,6 +291,7 @@ struct AddView: View {
                         .padding(.horizontal)
                         .bold()
                         .font(.custom(appFont, size: 20))
+                        .foregroundStyle(darkMode ? .white : .black)
                     
                     HStack {
                         let veryHappy = 0x1F601
@@ -404,6 +384,7 @@ struct AddView: View {
                         .padding(.horizontal)
                         .bold()
                         .font(.custom(appFont, size: 20))
+                        .foregroundStyle(darkMode ? .white : .black)
                     
                     HStack {
                         let turtle = 0x1F422
@@ -494,6 +475,7 @@ struct AddView: View {
                         .padding(.horizontal)
                         .padding(.top)
                         .font(.custom(appFont, size: 20))
+                        .foregroundStyle(darkMode ? .white : .black)
                     
                     // Multiline text input
                     TextEditor(text: $userReflection)
@@ -507,7 +489,7 @@ struct AddView: View {
                 } // end of vstack
                 
             } // End ScrollView
-            .tint(.white)
+            .tint(darkMode ? .white : .black)
                         
             // MARK: Toolbar
             .toolbar {
@@ -520,6 +502,10 @@ struct AddView: View {
                             Circle()
                                 .fill(saveOrDelete == "save" ? .black : .white)
                                 .frame(width: 80, height: 78)
+                                .overlay {
+                                    Circle()
+                                        .stroke(.black, lineWidth: 4)
+                                }
                             
                             Button { // Save/Delete button
                                 
@@ -537,7 +523,13 @@ struct AddView: View {
                                         newWorkoutType = "Other"
                                     }
                                     
-                                    // passes workouts list
+                                    if userMood == 0 {
+                                        userMood = 3
+                                    }
+                                    
+                                    if userEnergy == 0 {
+                                        userEnergy = 3
+                                    }
                                     
                                     let newWorkout = Workout(type: newWorkoutType, dayOfTheWeek: "ignore", date: newWorkoutDay, month: newWorkoutMonth, year: newWorkoutYear, hours: newWorkoutHours, minutes: newWorkoutMinutes, mood: userMood, energy: userEnergy, reflection: userReflection)
                                     
@@ -573,6 +565,11 @@ struct AddView: View {
                             Circle()
                                 .fill(saveOrDelete == "save" ? .white : .black)
                                 .frame(width: 40, height: 38)
+                                .overlay {
+                                    Circle()
+                                        .stroke(.black, lineWidth: 4)
+                                        .frame(width: 38)
+                                }
                             
                             Button { // Cancel button
                                 saveOrDelete = saveOrDelete=="save" ? "delete" : "save" // I LOVE TERNARY OPERATORS! <3

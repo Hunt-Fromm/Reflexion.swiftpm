@@ -21,6 +21,7 @@ struct ContentView: View {
     
     let appFont:String = "DINAlternate-Bold"
     
+    @State var darkMode: Bool = true
     
     var body: some View {
         
@@ -31,6 +32,7 @@ struct ContentView: View {
                 ZStack {
                     Text("Workout Log")
                         .font(.custom(appFont, size: 40))
+                        .foregroundStyle(darkMode ? .white : . black)
                         .onAppear {
                             workoutsViewModel.retreiveWorkouts()
                             workouts = workoutsViewModel.workouts
@@ -46,7 +48,7 @@ struct ContentView: View {
                         
                             
                         NavigationLink {
-                            SettingsView(workouts: $workouts, workoutsViewModel: workoutsViewModel, sortWorkoutsByMonth: sortWorkoutsByMonth())
+                            SettingsView(workouts: $workouts, workoutsViewModel: workoutsViewModel, sortWorkoutsByMonth: sortWorkoutsByMonth(), darkMode: $darkMode)
                         } label: {
                             Image(systemName: "gear")
                                 .font(.system(size: 25))
@@ -83,6 +85,7 @@ struct ContentView: View {
                                 .fontWeight(.bold)
                                 .underline()
                                 .font(.custom(appFont, size: 20))
+                                .foregroundStyle(darkMode ? .white : . black)
                             
                             
                             HStack {
@@ -110,6 +113,7 @@ struct ContentView: View {
                                                     .padding(4)
                                                     .offset(x: 5)
                                                     .font(.custom(appFont, size: 18))
+                                                    .foregroundStyle(darkMode ? .white : . black)
                                                     
                                             }
                                         })
@@ -163,7 +167,7 @@ struct ContentView: View {
                     
                     // Add View
                     NavigationLink {
-                        AddView(workouts: $workouts, didDismiss: {sortWorkoutsByMonth()})
+                        AddView(workouts: $workouts, didDismiss: {sortWorkoutsByMonth()}, darkMode: $darkMode)
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 60, weight: .bold))
@@ -174,7 +178,7 @@ struct ContentView: View {
                     
                     // Stats View
                     NavigationLink {
-                        StatsView(workouts: $workouts)
+                        StatsView(workouts: $workouts, darkMode: $darkMode)
                     } label: {
                         Image(systemName: "chart.xyaxis.line")
                             .font(.system(size: 25))
@@ -191,8 +195,8 @@ struct ContentView: View {
         .environmentObject(workoutsViewModel)
         
         // Changes background/theme
-        .foregroundStyle(.white)
-        .preferredColorScheme(.dark)
+        .foregroundStyle(darkMode ? .white : . black)
+        .preferredColorScheme(darkMode ? .dark : .light)
         .navigationBarHidden(true)
 
         

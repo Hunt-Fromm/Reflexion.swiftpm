@@ -41,8 +41,17 @@ struct YearReviewView: View {
         Color(red: 1, green: 0.5, blue: 0.5)
     ]
     
+    let lightColors: [Color] = [
+        Color.white,
+        Color(red: 0.7, green: 0.7, blue: 1),
+        Color(red: 0.5, green: 1, blue: 0.5),
+        Color(red: 1, green: 1, blue: 0.5),
+        Color(red: 1, green: 0.5, blue: 0.5)
+    ]
+    
     @State var showLog = false
     
+    @Binding var darkMode: Bool
     
     
     var body: some View {
@@ -52,7 +61,7 @@ struct YearReviewView: View {
             VStack {
                 ForEach(0...6, id: \.self) { i in
                     Text(days[(weekDay + i) % 7])
-                        .foregroundStyle(.white)
+                        .foregroundStyle(darkMode ? .white : . black)
                         .font(.custom("Arial", size: 15))
                 }
                 
@@ -128,7 +137,7 @@ struct YearReviewView: View {
                     
                     Rectangle()
                         .frame(width: 10, height: 125)
-                        .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.black.opacity(1), Color.black.opacity(0)]), startPoint: .leading, endPoint: .trailing))
+                        .foregroundStyle(LinearGradient(gradient: darkMode ? Gradient(colors: [Color.black.opacity(1), Color.black.opacity(0)]) : Gradient(colors: [Color.white.opacity(1), Color.black.opacity(0)]), startPoint: .leading, endPoint: .trailing))
                     
                     Spacer()
                         .frame(maxWidth: .infinity)
@@ -136,7 +145,7 @@ struct YearReviewView: View {
                     
                     Rectangle()
                         .frame(width: 40, height: 125)
-                        .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0), Color.black.opacity(1)]), startPoint: .leading, endPoint: .trailing))
+                        .foregroundStyle(LinearGradient(gradient: darkMode ? Gradient(colors: [Color.black.opacity(0), Color.black.opacity(1)]) : Gradient(colors: [Color.white.opacity(0), Color.white.opacity(1)]), startPoint: .leading, endPoint: .trailing))
                 }
                 
             }
@@ -162,7 +171,11 @@ struct YearReviewView: View {
 
 
         if durationToday < 150 {
-        tempWorkoutColors[i * 7 + j] = colors[(durationToday + 29) / 30]
+            tempWorkoutColors[i * 7 + j] = colors[(durationToday + 29) / 30]
+            
+            if (durationToday + 29) / 30 == 0 && !darkMode {
+                tempWorkoutColors[i * 7 + j] = .gray
+            }
         } else {
         tempWorkoutColors[i * 7 + j] = .red
         }
