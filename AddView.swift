@@ -176,6 +176,7 @@ struct AddView: View {
                         TextField("Type of Workout", text: $newWorkoutType)
                             .textFieldStyle(.roundedBorder)
                             .padding(.horizontal)
+                            .font(.custom(appFont, size: 20))
                     }
                     
                     // MARK: Date
