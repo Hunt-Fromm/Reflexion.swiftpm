@@ -48,7 +48,7 @@ struct DetailView: View {
                             .padding(.bottom)
                         
                         if workout.hours != 0 {
-                            Text("\(workout.hours):\(workout.minutes) hr")
+                            Text("\(workout.hours):\(String(format: "%02d", workout.minutes)) hr")
                                 .font(.custom(appFont, size: 25))
                                 .padding(.top)
                                 .foregroundStyle(.blue)
@@ -61,8 +61,10 @@ struct DetailView: View {
                         }
                     } // end of VStack (duration)
                     
-                    Spacer()
-                        .frame(width: 50)
+                    if (workout.mood != 0) {
+                        Spacer()
+                            .frame(width: 50)
+                    }
                     
                     VStack {
                         // MARK: MOOD
@@ -102,8 +104,10 @@ struct DetailView: View {
                         }
                     } // end of VStack (mood)
                     
-                    Spacer()
-                        .frame(width: 50)
+                    if (workout.energy != 0) {
+                        Spacer()
+                            .frame(width: 50)
+                    }
                     
                     VStack {
                         // Energy
@@ -112,10 +116,10 @@ struct DetailView: View {
                         let rabbit = 0x1F407
                         let personWalking = 0x1F6B6
                         
-                        Text("Energy")
-                            .font(.custom(appFont, size: 25))
-                        
                         if workout.energy != 0 {
+                            
+                            Text("Energy")
+                                .font(.custom(appFont, size: 25))
                             
                             if workout.energy == 1 {
                                 Text(String(UnicodeScalar(turtle)!))
@@ -147,13 +151,13 @@ struct DetailView: View {
                             
                         }
                         else {
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "plus.circle.fill")
-                                    .font(.custom(appFont, size: 50))
-                                    .foregroundStyle(.gray)
-                            }
+//                            Button {
+//                                
+//                            } label: {
+//                                Image(systemName: "plus.circle.fill")
+//                                    .font(.custom(appFont, size: 50))
+//                                    .foregroundStyle(.gray)
+//                            }
                         }
                     } // end of VStack (energy)
                 } // end of HStack (emoji)
@@ -195,18 +199,19 @@ struct DetailView: View {
                     
                 }
                 
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    NavigationLink {
-                        EditView(workouts: $workouts, existingWorkout: workout,  workoutType: workout.type, workoutHours: workout.hours, workoutMinutes: workout.minutes, workoutDay: workout.date, workoutMonth: workout.month, workoutYear: workout.year, userMood: workout.mood, userEnergy: workout.energy, userReflection: workout.reflection)
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                            .foregroundStyle(.blue)
-                            .font(.system(size: 25))
-                            .bold()
-                            .padding(.trailing)
-                    }
-                    
-                }
+//                // Edit Button
+//                ToolbarItemGroup(placement: .topBarTrailing) {
+//                    NavigationLink {
+//                        EditView(workouts: $workouts, existingWorkout: workout,  workoutType: workout.type, workoutHours: workout.hours, workoutMinutes: workout.minutes, workoutDay: workout.date, workoutMonth: workout.month, workoutYear: workout.year, userMood: workout.mood, userEnergy: workout.energy, userReflection: workout.reflection)
+//                    } label: {
+//                        Image(systemName: "ellipsis.circle")
+//                            .foregroundStyle(.blue)
+//                            .font(.system(size: 25))
+//                            .bold()
+//                            .padding(.trailing)
+//                    }
+//                    
+//                }
                 
                 ToolbarItemGroup(placement: .bottomBar) {
                     
